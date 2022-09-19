@@ -20,7 +20,7 @@ app.use(bodyParser.json())
 // 	console.log('Connected To Database!');
 // });
 // 'mongodb://127.0.0.1:27017/freedom' `${process.env.MONGODB_URI}`
-mongoose.connect('mongodb://127.0.0.1:27017/freedom', {useNewUrlParser: true, useUnifiedTopology: true,})
+mongoose.connect('mongodb+srv://admin:0XPhAeQulUcLKVLR@cluster0.nregswh.mongodb.net/?retryWrites=true&w=majority', {useNewUrlParser: true, useUnifiedTopology: true,})
 	.then(() => console.log('Connected to Database'))
 	.catch((err) => console.log(err))
 
