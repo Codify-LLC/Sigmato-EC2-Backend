@@ -34,22 +34,22 @@ const applicantSchema = new Schema({
 		type: String
 	},
 	currentaddress: {
-		type: Map,
+		type: Object,
 	},
 	previousaddress: {
-		type: Map,
+		type: Object,
 	},
 	occupation: {
-		type: Map
+		type: Object
 	},
 	dependents: {
-		type: [Map]
+		type: [Object]
 	},
 	outstandingdetails: {
-		type: Map
+		type: Object
 	},
 	documents: {
-		type: Map
+		type: Object
 	}
 });
 
