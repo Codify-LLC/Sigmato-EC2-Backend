@@ -16,13 +16,13 @@ app.use(bodyParser.json())
 // ${process.env.MONGODB_URI}
 
 
-// mongoose.connect('mongodb://localhost:27017/freedom', { }, () => {
-// 	console.log('Connected To Database!');
-// });
+mongoose.connect('mongodb+srv://admin:0XPhAeQulUcLKVLR@cluster0.nregswh.mongodb.net/?retryWrites=true&w=majority', { }, () => {
+	console.log('Connected To Database!');
+});
 // 'mongodb://127.0.0.1:27017/freedom' `${process.env.MONGODB_URI}`
-mongoose.connect('mongodb+srv://admin:0XPhAeQulUcLKVLR@cluster0.nregswh.mongodb.net/?retryWrites=true&w=majority', {useNewUrlParser: true, useUnifiedTopology: true,})
-	.then(() => console.log('Connected to Database'))
-	.catch((err) => console.log(err))
+// mongoose.connect('mongodb+srv://admin:0XPhAeQulUcLKVLR@cluster0.nregswh.mongodb.net/?retryWrites=true&w=majority', {})
+// 	.then(() => console.log('Connected to Database'))
+// 	.catch((err) => console.log(err))
 
 app.use("/user", userRouter)
 app.use("/property", propertyRouter)
