@@ -1,3 +1,8 @@
+import 'package:country_picker/country_picker.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
+
 import '../flutter_flow/flutter_flow_theme.dart';
 import '../flutter_flow/flutter_flow_util.dart';
 import '../otp/otp_widget.dart';
@@ -14,6 +19,50 @@ class PhoneNumberWidget extends StatefulWidget {
 
 class _PhoneNumberWidgetState extends State<PhoneNumberWidget> {
   final scaffoldKey = GlobalKey<ScaffoldState>();
+  String? flag;
+  String? code;
+  TextEditingController? textController1;
+
+  @override
+  void initState() {
+    super.initState();
+    textController1 = TextEditingController();
+  }
+
+  Future addUserNumber(String number) async {
+    final prefs = await SharedPreferences.getInstance();
+    print(number);
+
+    try {
+      var response = await http.post(
+        Uri.parse(
+            "http://ec2-18-169-165-31.eu-west-2.compute.amazonaws.com:5500/user/add"),
+        body: {"phonenumber": "$number"},
+      );
+
+      print(response.body);
+
+      final body = jsonDecode(response.body);
+
+      if (response.statusCode == 200) {
+        await prefs.setString("user_id", body["_id"]);
+        await Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => OtpWidget(),
+          ),
+        );
+      } else {
+        Fluttertoast.showToast(
+          msg: "Error while saving data, try again",
+          backgroundColor: Colors.red,
+        );
+      }
+    } catch (e) {
+      print(e);
+      Fluttertoast.showToast(msg: e.toString());
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -73,19 +122,116 @@ class _PhoneNumberWidgetState extends State<PhoneNumberWidget> {
                   child: Container(
                     width: 336,
                     height: 50,
+                    padding: EdgeInsets.symmetric(horizontal: 12, vertical: 14),
                     decoration: BoxDecoration(
                       color: FlutterFlowTheme.of(context).secondaryBackground,
-                      image: DecorationImage(
-                        fit: BoxFit.fill,
-                        image: Image.asset(
-                          'assets/images/Group_479.png',
-                        ).image,
-                      ),
                       borderRadius: BorderRadius.circular(10),
                       border: Border.all(
                         color: Color(0xFF979797),
                         width: 1,
                       ),
+                    ),
+                    child: Row(
+                      children: [
+                        InkWell(
+                          onTap: () {
+                            showCountryPicker(
+                              context: context,
+                              onSelect: (Country country) {
+                                // country.phoneCode;
+                                print('Select country: ${country.displayName}');
+                                print('Flag: ${country.flagEmoji}');
+                                setState(() {
+                                  flag = country.flagEmoji;
+                                  code = country.phoneCode;
+                                });
+                              },
+                            );
+                          },
+                          child: flag != null
+                              ? Text(
+                                  "$flag",
+                                  style: TextStyle(fontSize: 18),
+                                )
+                              : Container(
+                                  width: 34,
+                                  height: 22,
+                                  child:
+                                      Image.asset("assets/images/ukflag.png"),
+                                ),
+                        ),
+                        Padding(
+                          padding: EdgeInsets.symmetric(
+                            horizontal: 10,
+                          ),
+                          child: Container(
+                            width: 2,
+                            color: Colors.grey,
+                          ),
+                        ),
+                        Container(
+                          child: Text(
+                            code != null ? "+$code" : "+44",
+                            style:
+                                FlutterFlowTheme.of(context).bodyText1.override(
+                                      fontFamily: 'Segoe UI',
+                                      fontSize: 16,
+                                      useGoogleFonts: false,
+                                      color: Color(0xFF979797),
+                                    ),
+                          ),
+                        ),
+                        const SizedBox(
+                          width: 10,
+                        ),
+                        Expanded(
+                          child: Center(
+                            child: TextFormField(
+                              controller: textController1,
+                              decoration: InputDecoration(
+                                contentPadding:
+                                    EdgeInsets.symmetric(vertical: 8),
+                                border: InputBorder.none,
+                                errorBorder: InputBorder.none,
+                                enabledBorder: InputBorder.none,
+                                focusedBorder: InputBorder.none,
+                                disabledBorder: InputBorder.none,
+                              ),
+                              style: FlutterFlowTheme.of(context)
+                                  .bodyText1
+                                  .override(
+                                    fontFamily: 'Segoe UI',
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.normal,
+                                    useGoogleFonts: false,
+                                  ),
+                              keyboardType: TextInputType.number,
+                            ),
+                            // TextFormField(
+                            //   controller: textController1,
+                            //   autofocus: true,
+                            //   obscureText: false,
+                            //   decoration: InputDecoration(
+                            //     border: InputBorder.none,
+                            //     errorBorder: InputBorder.none,
+                            //     enabledBorder: InputBorder.none,
+                            //     focusedBorder: InputBorder.none,
+                            //     disabledBorder: InputBorder.none,
+
+                            //   ),
+                            //   style: FlutterFlowTheme.of(context)
+                            //       .bodyText1
+                            //       .override(
+                            //         fontFamily: 'Segoe UI',
+                            //         fontSize: 18,
+                            //         fontWeight: FontWeight.normal,
+                            //         useGoogleFonts: false,
+                            //       ),
+                            //   keyboardType: TextInputType.number,
+                            // ),
+                          ),
+                        )
+                      ],
                     ),
                   ),
                 ),
@@ -94,12 +240,15 @@ class _PhoneNumberWidgetState extends State<PhoneNumberWidget> {
                 padding: EdgeInsetsDirectional.fromSTEB(0, 40, 0, 0),
                 child: InkWell(
                   onTap: () async {
-                    await Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => OtpWidget(),
-                      ),
-                    );
+                    if (textController1?.text != null &&
+                        textController1?.text != "") {
+                      await addUserNumber(textController1!.text);
+                    } else {
+                      Fluttertoast.showToast(
+                        msg: "Enter a valid number",
+                        backgroundColor: Colors.red,
+                      );
+                    }
                   },
                   child: Container(
                     width: 340,

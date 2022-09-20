@@ -1,5 +1,6 @@
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:freedom/backend/api.dart';
+import 'package:freedom/components/finished_widget.dart';
 import 'package:freedom/components/outstanding_details_widget.dart';
 import 'package:http/http.dart' as http;
 
@@ -30,34 +31,51 @@ class _FormWidgetState extends State<FormWidget> {
   bool applicantDetails = false;
   bool applicantAddress = false;
   bool applicantOccupation = false;
+  dynamic data;
+  String? name;
+  String? typeOfAddress;
 
   @override
   void initState() {
     super.initState();
     textController = TextEditingController();
+    // setData();
   }
 
   // http://ec2-18-169-165-31.eu-west-2.compute.amazonaws.com:5500
+
+  Future setData() async {
+    final data = await ApiFunctions().getApplicantData();
+
+    // print(data["firstname"]);
+
+    setState(() {
+      name = '${data["firstname"]} ${data["surname"]}';
+    });
+  }
 
   Future addApplicantDependentDetails() async {
     final id = await ApiFunctions().getApplicantId();
     print(id);
 
-    var values = [];
+    // var values = [];
 
     try {
       var data = {
         dropDownValue: textController!.text,
       };
 
-      values.add(data);
+      // values.add(data);
 
-      final jsonData = jsonEncode(values);
+      final jsonData = jsonEncode(data);
 
-      var response = await http
-          .patch(Uri.parse("http://192.168.1.35:5500/applicant/${id}"), body: {
-        "dependents": jsonData,
-      });
+      var response = await http.patch(
+        Uri.parse(
+            "http://ec2-18-169-165-31.eu-west-2.compute.amazonaws.com:5500/applicant/${id}"),
+        body: {
+          "dependents": jsonData,
+        },
+      );
 
       print(response.body);
 
@@ -1450,7 +1468,7 @@ class _FormWidgetState extends State<FormWidget> {
                                                               ),
                                                         ),
                                                         Text(
-                                                          "Name",
+                                                          name ?? "Name",
                                                           style: FlutterFlowTheme
                                                                   .of(context)
                                                               .bodyText1
@@ -1903,7 +1921,7 @@ class _FormWidgetState extends State<FormWidget> {
                                               onTap: () async {
                                                 final id = await ApiFunctions()
                                                     .getApplicantId();
-                                                if (id != null) {
+                                                if (id == null) {
                                                   Fluttertoast.showToast(
                                                       msg:
                                                           "Fill the Applicant Details form to continue");
@@ -2326,7 +2344,8 @@ class _FormWidgetState extends State<FormWidget> {
                                                                           ),
                                                                     ),
                                                                     Text(
-                                                                      "Name",
+                                                                      name ??
+                                                                          "Name",
                                                                       style: FlutterFlowTheme.of(
                                                                               context)
                                                                           .bodyText1
@@ -2685,7 +2704,7 @@ class _FormWidgetState extends State<FormWidget> {
                                                 height: 5,
                                               ),
                                               Text(
-                                                "Name",
+                                                name ?? "Name",
                                                 style: FlutterFlowTheme.of(
                                                         context)
                                                     .bodyText1
@@ -2814,7 +2833,7 @@ class _FormWidgetState extends State<FormWidget> {
                                                                 .fromSTEB(
                                                                     0, 5, 0, 0),
                                                         child: Text(
-                                                          'Carole Demas',
+                                                          name ?? "Name",
                                                           style: FlutterFlowTheme
                                                                   .of(context)
                                                               .bodyText1
@@ -2941,7 +2960,7 @@ class _FormWidgetState extends State<FormWidget> {
                                                             .fromSTEB(
                                                                 0, 5, 0, 0),
                                                     child: Text(
-                                                      'Carole Demas',
+                                                      name ?? "Name",
                                                       style:
                                                           FlutterFlowTheme.of(
                                                                   context)
@@ -3476,15 +3495,15 @@ class _FormWidgetState extends State<FormWidget> {
                                                     .fromSTEB(15, 0, 0, 0),
                                                 child: InkWell(
                                                   onTap: () async {
-                                                    setState(() => FFAppState()
-                                                        .currentFormPageNumber = 6);
-                                                    await pageViewController
-                                                        ?.nextPage(
-                                                      duration: Duration(
-                                                          milliseconds: 300),
-                                                      curve: Curves.ease,
-                                                    );
-                                                    // await addApplicantDependentDetails();
+                                                    // setState(() => FFAppState()
+                                                    //     .currentFormPageNumber = 6);
+                                                    // await pageViewController
+                                                    //     ?.nextPage(
+                                                    //   duration: Duration(
+                                                    //       milliseconds: 300),
+                                                    //   curve: Curves.ease,
+                                                    // );
+                                                    await addApplicantDependentDetails();
                                                   },
                                                   child: Container(
                                                     width: 42,
@@ -3599,7 +3618,7 @@ class _FormWidgetState extends State<FormWidget> {
                                                 padding: EdgeInsetsDirectional
                                                     .fromSTEB(0, 5, 0, 0),
                                                 child: Text(
-                                                  'Carole Demas',
+                                                  name ?? "Name",
                                                   style: FlutterFlowTheme.of(
                                                           context)
                                                       .bodyText1
@@ -3721,7 +3740,7 @@ class _FormWidgetState extends State<FormWidget> {
                                                   padding: EdgeInsetsDirectional
                                                       .fromSTEB(0, 5, 0, 0),
                                                   child: Text(
-                                                    'Carole Demas',
+                                                    name ?? "Name",
                                                     style: FlutterFlowTheme.of(
                                                             context)
                                                         .bodyText1
@@ -3858,7 +3877,14 @@ class _FormWidgetState extends State<FormWidget> {
                                                     //       milliseconds: 300),
                                                     //   curve: Curves.ease,
                                                     // );
+
                                                     Navigator.pop(context);
+                                                    await showDialog(
+                                                      context: context,
+                                                      builder: (_) {
+                                                        return FinishedWidget();
+                                                      },
+                                                    );
                                                   },
                                                   child: Container(
                                                     width: 42,

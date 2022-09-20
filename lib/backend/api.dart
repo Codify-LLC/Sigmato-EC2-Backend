@@ -14,7 +14,8 @@ class ApiFunctions {
     final id = await getApplicantId();
 
     var response = await http.get(
-      Uri.parse("http://192.168.1.35:5500/applicant/${id}"),
+      Uri.parse(
+          "http://ec2-18-169-165-31.eu-west-2.compute.amazonaws.com:5500/applicant/${id}"),
     );
 
     final body = jsonDecode(response.body);

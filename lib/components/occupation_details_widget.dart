@@ -46,7 +46,7 @@ class _OccupationDetailsWidgetState extends State<OccupationDetailsWidget> {
     print(data["firstname"]);
 
     setState(() {
-      name = '${data["firstname"]} ${data["lastname"]}';
+      name = '${data["firstname"]} ${data["surname"]}';
     });
   }
 
@@ -55,7 +55,7 @@ class _OccupationDetailsWidgetState extends State<OccupationDetailsWidget> {
     print(id);
 
     try {
-      Map data = {
+      var data = {
         "employementStatus": dropDownValue1 ?? "null",
         "jobTitle": textController1?.text,
         "paretalLeave": parentalLeave,
@@ -75,7 +75,8 @@ class _OccupationDetailsWidgetState extends State<OccupationDetailsWidget> {
       print(jsonData);
 
       var response = await http.patch(
-        Uri.parse("http://192.168.1.35:5500/applicant/${id}"),
+        Uri.parse(
+            "http://ec2-18-169-165-31.eu-west-2.compute.amazonaws.com:5500/applicant/${id}"),
         body: {
           "occupation": jsonData,
         },
@@ -641,7 +642,7 @@ class _OccupationDetailsWidgetState extends State<OccupationDetailsWidget> {
                         ),
                         style: FlutterFlowTheme.of(context).bodyText1.override(
                               fontFamily: 'Segoe UI',
-                              color: Color(0xFF979797),
+                              // color: Color(0xFF979797),
                               fontSize: 16,
                               fontWeight: FontWeight.normal,
                               useGoogleFonts: false,

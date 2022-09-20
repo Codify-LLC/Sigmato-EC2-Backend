@@ -4,6 +4,7 @@ import 'package:freedom/components/current_address_widget.dart';
 import 'package:freedom/components/successfully_widget.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
+import 'dart:convert';
 
 import '../flutter_flow/flutter_flow_drop_down.dart';
 import '../flutter_flow/flutter_flow_theme.dart';
@@ -48,28 +49,46 @@ class _AddAddressWidgetState extends State<AddAddressWidget> {
     print(id);
 
     try {
-      var data = {
+      Map<String, String> data = {
         "typeOfAddress": FFAppState().typeOfAddress,
-        "postalCode": textController1?.text,
-        "flatNumber": textController2?.text,
-        "buildingName": textController3?.text,
-        "street": textController4?.text,
-        "city": textController5?.text,
-        "startLivingDate": textController7?.text,
-        "typeOfOccupant": dropDownValue ?? "null",
+        "postalCode": textController1!.text,
+        "flatNumber": textController2!.text,
+        "buildingName": textController3!.text,
+        "street": textController4!.text,
+        "city": textController5!.text,
+        "startLivingDate": textController7!.text,
+        "typeOfOccupant": dropDownValue ?? "null"
       };
 
-      final jsonData = jsonEncode(data);
+      // final stringData = data.toString();
+      // print(stringData);
+
+      final jsonData = json.encode(data);
 
       var response = await http.patch(
         Uri.parse(
-            "http://http://ec2-18-169-165-31.eu-west-2.compute.amazonaws.com:5500/applicant/${id}"),
+            "http://ec2-18-169-165-31.eu-west-2.compute.amazonaws.com:5500/applicant/${id}"),
+        // headers: <String, String>{
+        //   'Content-Type': 'application/json; charset=UTF-8',
+        // },
         body: {
           "currentaddress": jsonData,
         },
       );
 
+      // json.encode({
+      //       "typeOfAddress": FFAppState().typeOfAddress,
+      //       "postalCode": textController1?.text,
+      //       "flatNumber": textController2?.text,
+      //       "buildingName": textController3?.text,
+      //       "street": textController4?.text,
+      //       "city": textController5?.text,
+      //       "startLivingDate": textController7?.text,
+      //       "typeOfOccupant": dropDownValue ?? "null"
+      //     }),
+
       print(response);
+      print(response.body);
       if (response.statusCode == 200) {
         Fluttertoast.showToast(
           msg: "Data succesfully saved",
