@@ -1,7 +1,8 @@
+import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:freedom/backend/api.dart';
-import 'package:freedom/components/current_address_widget.dart';
 import 'package:freedom/components/successfully_widget.dart';
+import 'package:freedom/flutter_flow/flutter_flow_theme.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:convert';
@@ -14,14 +15,14 @@ import 'package:easy_debounce/easy_debounce.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-class AddAddressWidget extends StatefulWidget {
-  const AddAddressWidget({Key? key}) : super(key: key);
+class EditAddressDetails extends StatefulWidget {
+  EditAddressDetails({Key? key}) : super(key: key);
 
   @override
-  _AddAddressWidgetState createState() => _AddAddressWidgetState();
+  State<EditAddressDetails> createState() => _EditAddressDetailsState();
 }
 
-class _AddAddressWidgetState extends State<AddAddressWidget> {
+class _EditAddressDetailsState extends State<EditAddressDetails> {
   String? dropDownValue;
   TextEditingController? textController1;
   TextEditingController? textController2;
@@ -35,13 +36,38 @@ class _AddAddressWidgetState extends State<AddAddressWidget> {
   @override
   void initState() {
     super.initState();
-    textController1 = TextEditingController();
-    textController2 = TextEditingController();
-    textController3 = TextEditingController();
-    textController4 = TextEditingController();
-    textController5 = TextEditingController();
-    textController6 = TextEditingController();
-    textController7 = TextEditingController();
+    // textController1 = TextEditingController();
+    // textController2 = TextEditingController();
+    // textController3 = TextEditingController();
+    // textController4 = TextEditingController();
+    // textController5 = TextEditingController();
+    // textController6 = TextEditingController();
+    // textController7 = TextEditingController();
+    fillDetails();
+  }
+
+  Future fillDetails() async {
+    final data = await ApiFunctions().getApplicantData();
+    print(data);
+    final currentAdd = jsonDecode(data["currentaddress"]);
+
+    print(currentAdd["postalCode"]);
+    print(currentAdd["buildingName"]);
+
+    // print(data["currentaddress"]);
+
+    setState(() {
+      textController1 = TextEditingController(text: currentAdd["postalCode"]);
+      textController2 = TextEditingController(text: currentAdd["flatNumber"]);
+
+      textController3 = TextEditingController(text: currentAdd["buildingName"]);
+      textController4 = TextEditingController(text: currentAdd["street"]);
+      textController5 = TextEditingController(text: currentAdd["city"]);
+      textController6 = TextEditingController(text: currentAdd["postalCode"]);
+      textController7 =
+          TextEditingController(text: currentAdd["startLivingDate"]);
+      // dropDownValue = currentAdd["typeOfOccupant"];
+    });
   }
 
   Future addApplicantAddress() async {
@@ -56,7 +82,6 @@ class _AddAddressWidgetState extends State<AddAddressWidget> {
         "buildingName": textController3!.text,
         "street": textController4!.text,
         "city": textController5!.text,
-        
         "startLivingDate": textController7!.text,
         "typeOfOccupant": dropDownValue ?? "null"
       };
@@ -156,7 +181,7 @@ class _AddAddressWidgetState extends State<AddAddressWidget> {
                         ),
                       ),
                       Text(
-                        'Add Address',
+                        'Update Address',
                         style: FlutterFlowTheme.of(context).bodyText1.override(
                               fontFamily: 'Segoe UI',
                               color: Colors.white,
@@ -398,19 +423,19 @@ class _AddAddressWidgetState extends State<AddAddressWidget> {
                               color: FlutterFlowTheme.of(context).primaryColor,
                               size: 20,
                             ),
-                            suffixIcon: textController1!.text.isNotEmpty
-                                ? InkWell(
-                                    onTap: () async {
-                                      textController1?.clear();
-                                      setState(() {});
-                                    },
-                                    child: Icon(
-                                      Icons.clear,
-                                      color: Color(0xFF757575),
-                                      size: 22,
-                                    ),
-                                  )
-                                : null,
+                            // suffixIcon: textController1?.text.isNotEmpty
+                            //     ? InkWell(
+                            //         onTap: () async {
+                            //           textController1?.clear();
+                            //           setState(() {});
+                            //         },
+                            //         child: Icon(
+                            //           Icons.clear,
+                            //           color: Color(0xFF757575),
+                            //           size: 22,
+                            //         ),
+                            //       )
+                            //     : null,
                           ),
                           style:
                               FlutterFlowTheme.of(context).bodyText1.override(

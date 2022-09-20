@@ -41,6 +41,8 @@ class FFAppState {
   String ownSharesInCompany = "";
   String kindOfEmployee = "";
 
+  String releaseFromEquity = "";
+
   String PurchaseOptionSelected = '';
 
   String RemortgageOptionSelected = '';

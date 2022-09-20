@@ -31,6 +31,7 @@ class _CurrentAddressDetailsState extends State<CurrentAddressDetails> {
   RepaymentType? _repaymentType = RepaymentType.repayment;
   PlanWithProperty? _planWithProperty = PlanWithProperty.sell;
   bool showExpectedIncome = false;
+  String releaseFromEquity = "";
 
   @override
   void initState() {
@@ -618,21 +619,32 @@ class _CurrentAddressDetailsState extends State<CurrentAddressDetails> {
                           children: [
                             FFButtonWidget(
                               onPressed: () {
-                                print('Button pressed ...');
+                                setState(() {
+                                  releaseFromEquity = "yes";
+                                });
                               },
                               text: 'Yes',
                               options: FFButtonOptions(
                                 width: 158,
                                 height: 50,
-                                color:
-                                    FlutterFlowTheme.of(context).primaryColor,
-                                textStyle: FlutterFlowTheme.of(context)
-                                    .subtitle2
-                                    .override(
-                                      fontFamily: 'Seoge UI',
-                                      color: Colors.white,
-                                      useGoogleFonts: false,
-                                    ),
+                                color: releaseFromEquity == "yes"
+                                    ? FlutterFlowTheme.of(context).primaryColor
+                                    : Color(0xFFEEF7FE),
+                                textStyle: releaseFromEquity == "yes"
+                                    ? FlutterFlowTheme.of(context)
+                                        .subtitle2
+                                        .override(
+                                          fontFamily: 'Seoge UI',
+                                          color: Colors.white,
+                                          useGoogleFonts: false,
+                                        )
+                                    : FlutterFlowTheme.of(context)
+                                        .subtitle2
+                                        .override(
+                                          fontFamily: 'Segoe UI',
+                                          color: Color(0xFF263238),
+                                          useGoogleFonts: false,
+                                        ),
                                 borderSide: BorderSide(
                                   color: Colors.transparent,
                                   width: 1,
@@ -642,20 +654,32 @@ class _CurrentAddressDetailsState extends State<CurrentAddressDetails> {
                             ),
                             FFButtonWidget(
                               onPressed: () {
-                                print('Button pressed ...');
+                                setState(() {
+                                  releaseFromEquity = "no";
+                                });
                               },
                               text: 'No',
                               options: FFButtonOptions(
                                 width: 158,
                                 height: 50,
-                                color: Color(0xFFEEF7FE),
-                                textStyle: FlutterFlowTheme.of(context)
-                                    .subtitle2
-                                    .override(
-                                      fontFamily: 'Seoge UI',
-                                      color: Color(0xFF263238),
-                                      useGoogleFonts: false,
-                                    ),
+                                color: releaseFromEquity == "no"
+                                    ? FlutterFlowTheme.of(context).primaryColor
+                                    : Color(0xFFEEF7FE),
+                                textStyle: releaseFromEquity == "no"
+                                    ? FlutterFlowTheme.of(context)
+                                        .subtitle2
+                                        .override(
+                                          fontFamily: 'Seoge UI',
+                                          color: Colors.white,
+                                          useGoogleFonts: false,
+                                        )
+                                    : FlutterFlowTheme.of(context)
+                                        .subtitle2
+                                        .override(
+                                          fontFamily: 'Segoe UI',
+                                          color: Color(0xFF263238),
+                                          useGoogleFonts: false,
+                                        ),
                                 borderSide: BorderSide(
                                   color: Colors.transparent,
                                   width: 1,

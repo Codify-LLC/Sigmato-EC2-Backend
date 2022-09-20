@@ -1,5 +1,8 @@
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:freedom/backend/api.dart';
+import 'package:freedom/components/edit_address_details_widget.dart';
+import 'package:freedom/components/edit_applicant_details_widget.dart';
+import 'package:freedom/components/edit_occupation_details_widget.dart';
 import 'package:freedom/components/finished_widget.dart';
 import 'package:freedom/components/outstanding_details_widget.dart';
 import 'package:http/http.dart' as http;
@@ -34,6 +37,7 @@ class _FormWidgetState extends State<FormWidget> {
   dynamic data;
   String? name;
   String? typeOfAddress;
+  bool add = false;
 
   @override
   void initState() {
@@ -1174,17 +1178,23 @@ class _FormWidgetState extends State<FormWidget> {
                                     Row(
                                       mainAxisSize: MainAxisSize.max,
                                       children: [
-                                        Container(
-                                          width: 32,
-                                          height: 32,
-                                          decoration: BoxDecoration(
-                                            color: FlutterFlowTheme.of(context)
-                                                .secondaryBackground,
-                                            image: DecorationImage(
-                                              fit: BoxFit.contain,
-                                              image: Image.asset(
-                                                'assets/images/Add_Button_(1).png',
-                                              ).image,
+                                        InkWell(
+                                          onTap: () {
+                                            Navigator.pop(context);
+                                          },
+                                          child: Container(
+                                            width: 32,
+                                            height: 32,
+                                            decoration: BoxDecoration(
+                                              color:
+                                                  FlutterFlowTheme.of(context)
+                                                      .secondaryBackground,
+                                              image: DecorationImage(
+                                                fit: BoxFit.contain,
+                                                image: Image.asset(
+                                                  'assets/images/Add_Button_(1).png',
+                                                ).image,
+                                              ),
                                             ),
                                           ),
                                         ),
@@ -1489,18 +1499,60 @@ class _FormWidgetState extends State<FormWidget> {
                                                     ),
                                                     Row(
                                                       children: [
-                                                        Image.asset(
-                                                          "assets/images/edit.png",
-                                                          height: 18,
-                                                          width: 18,
+                                                        InkWell(
+                                                          onTap: () async {
+                                                            await showModalBottomSheet(
+                                                              isScrollControlled:
+                                                                  true,
+                                                              backgroundColor:
+                                                                  FlutterFlowTheme.of(
+                                                                          context)
+                                                                      .primaryBackground,
+                                                              barrierColor:
+                                                                  FlutterFlowTheme.of(
+                                                                          context)
+                                                                      .primaryBackground,
+                                                              context: context,
+                                                              builder:
+                                                                  (context) {
+                                                                return Padding(
+                                                                  padding: MediaQuery.of(
+                                                                          context)
+                                                                      .viewInsets,
+                                                                  child:
+                                                                      Container(
+                                                                    height: MediaQuery.of(context)
+                                                                            .size
+                                                                            .height *
+                                                                        1,
+                                                                    child:
+                                                                        EditApplicantDetails(),
+                                                                  ),
+                                                                );
+                                                              },
+                                                            );
+                                                          },
+                                                          child: Image.asset(
+                                                            "assets/images/edit.png",
+                                                            height: 18,
+                                                            width: 18,
+                                                          ),
                                                         ),
                                                         const SizedBox(
                                                           width: 15,
                                                         ),
-                                                        Image.asset(
-                                                          "assets/images/delete.png",
-                                                          height: 18,
-                                                          width: 18,
+                                                        InkWell(
+                                                          onTap: () {
+                                                            setState(() {
+                                                              applicantDetails =
+                                                                  false;
+                                                            });
+                                                          },
+                                                          child: Image.asset(
+                                                            "assets/images/delete.png",
+                                                            height: 18,
+                                                            width: 18,
+                                                          ),
                                                         ),
                                                       ],
                                                     ),
@@ -2255,36 +2307,41 @@ class _FormWidgetState extends State<FormWidget> {
                                                             ),
                                                           ],
                                                         ),
-                                                        Container(
-                                                          width: 26.67,
-                                                          height: 26.67,
-                                                          decoration:
-                                                              BoxDecoration(
-                                                            gradient:
-                                                                LinearGradient(
-                                                              colors: [
-                                                                Color(
-                                                                    0xFF4B65B2),
-                                                                Color(
-                                                                    0xFF13BBE6)
-                                                              ],
-                                                              stops: [0, 1],
-                                                              begin:
-                                                                  AlignmentDirectional(
-                                                                      -1, 0),
-                                                              end:
-                                                                  AlignmentDirectional(
-                                                                      1, 0),
+                                                        Visibility(
+                                                          visible:
+                                                              !applicantAddress,
+                                                          child: Container(
+                                                            width: 26.67,
+                                                            height: 26.67,
+                                                            decoration:
+                                                                BoxDecoration(
+                                                              gradient:
+                                                                  LinearGradient(
+                                                                colors: [
+                                                                  Color(
+                                                                      0xFF4B65B2),
+                                                                  Color(
+                                                                      0xFF13BBE6)
+                                                                ],
+                                                                stops: [0, 1],
+                                                                begin:
+                                                                    AlignmentDirectional(
+                                                                        -1, 0),
+                                                                end:
+                                                                    AlignmentDirectional(
+                                                                        1, 0),
+                                                              ),
+                                                              shape: BoxShape
+                                                                  .circle,
                                                             ),
-                                                            shape:
-                                                                BoxShape.circle,
-                                                          ),
-                                                          child: Icon(
-                                                            Icons.arrow_forward,
-                                                            color: FlutterFlowTheme
-                                                                    .of(context)
-                                                                .primaryBackground,
-                                                            size: 15,
+                                                            child: Icon(
+                                                              Icons
+                                                                  .arrow_forward,
+                                                              color: FlutterFlowTheme
+                                                                      .of(context)
+                                                                  .primaryBackground,
+                                                              size: 15,
+                                                            ),
                                                           ),
                                                         ),
                                                       ],
@@ -2366,20 +2423,61 @@ class _FormWidgetState extends State<FormWidget> {
                                                                 ),
                                                                 Row(
                                                                   children: [
-                                                                    Image.asset(
-                                                                      "assets/images/edit.png",
-                                                                      height:
-                                                                          18,
-                                                                      width: 18,
+                                                                    InkWell(
+                                                                      onTap:
+                                                                          () async {
+                                                                        await showModalBottomSheet(
+                                                                          isScrollControlled:
+                                                                              true,
+                                                                          backgroundColor:
+                                                                              FlutterFlowTheme.of(context).primaryBackground,
+                                                                          barrierColor:
+                                                                              FlutterFlowTheme.of(context).primaryBackground,
+                                                                          context:
+                                                                              context,
+                                                                          builder:
+                                                                              (context) {
+                                                                            return Padding(
+                                                                              padding: MediaQuery.of(context).viewInsets,
+                                                                              child: Container(
+                                                                                height: MediaQuery.of(context).size.height * 1,
+                                                                                child: EditAddressDetails(),
+                                                                              ),
+                                                                            );
+                                                                          },
+                                                                        );
+                                                                      },
+                                                                      child: Image
+                                                                          .asset(
+                                                                        "assets/images/edit.png",
+                                                                        height:
+                                                                            18,
+                                                                        width:
+                                                                            18,
+                                                                      ),
                                                                     ),
                                                                     const SizedBox(
                                                                       width: 15,
                                                                     ),
-                                                                    Image.asset(
-                                                                      "assets/images/delete.png",
-                                                                      height:
-                                                                          18,
-                                                                      width: 18,
+                                                                    InkWell(
+                                                                      onTap:
+                                                                          () async {
+                                                                        await ApiFunctions()
+                                                                            .deleteApplicantDetails("currentaddress");
+                                                                        setState(
+                                                                            () {
+                                                                          applicantAddress =
+                                                                              false;
+                                                                        });
+                                                                      },
+                                                                      child: Image
+                                                                          .asset(
+                                                                        "assets/images/delete.png",
+                                                                        height:
+                                                                            18,
+                                                                        width:
+                                                                            18,
+                                                                      ),
                                                                     ),
                                                                   ],
                                                                 ),
@@ -2721,18 +2819,60 @@ class _FormWidgetState extends State<FormWidget> {
                                           ),
                                           Row(
                                             children: [
-                                              Image.asset(
-                                                "assets/images/edit.png",
-                                                height: 18,
-                                                width: 18,
+                                              InkWell(
+                                                onTap: () async {
+                                                  await showModalBottomSheet(
+                                                    isScrollControlled: true,
+                                                    backgroundColor:
+                                                        FlutterFlowTheme.of(
+                                                                context)
+                                                            .primaryBackground,
+                                                    barrierColor:
+                                                        FlutterFlowTheme.of(
+                                                                context)
+                                                            .primaryBackground,
+                                                    context: context,
+                                                    builder: (context) {
+                                                      return Padding(
+                                                        padding: MediaQuery.of(
+                                                                context)
+                                                            .viewInsets,
+                                                        child: Container(
+                                                          height: MediaQuery.of(
+                                                                      context)
+                                                                  .size
+                                                                  .height *
+                                                              1,
+                                                          child:
+                                                              EditOccupationDetails(),
+                                                        ),
+                                                      );
+                                                    },
+                                                  );
+                                                },
+                                                child: Image.asset(
+                                                  "assets/images/edit.png",
+                                                  height: 18,
+                                                  width: 18,
+                                                ),
                                               ),
                                               const SizedBox(
                                                 width: 15,
                                               ),
-                                              Image.asset(
-                                                "assets/images/delete.png",
-                                                height: 18,
-                                                width: 18,
+                                              InkWell(
+                                                onTap: () async {
+                                                  await ApiFunctions()
+                                                      .deleteApplicantDetails(
+                                                          "occupation");
+                                                  setState(() {
+                                                    applicantOccupation = false;
+                                                  });
+                                                },
+                                                child: Image.asset(
+                                                  "assets/images/delete.png",
+                                                  height: 18,
+                                                  width: 18,
+                                                ),
                                               ),
                                             ],
                                           ),
@@ -3176,6 +3316,37 @@ class _FormWidgetState extends State<FormWidget> {
                                           ),
                                         ),
                                       ),
+                                      Visibility(
+                                        visible: add,
+                                        child: Padding(
+                                          padding:
+                                              EdgeInsetsDirectional.fromSTEB(
+                                                  0, 20, 0, 0),
+                                          child: Container(
+                                            width: 42,
+                                            height: 70,
+                                            decoration: BoxDecoration(
+                                              color: Color(0xFFEEF7FE),
+                                              borderRadius: BorderRadius.only(
+                                                bottomLeft: Radius.circular(10),
+                                                bottomRight: Radius.circular(0),
+                                                topLeft: Radius.circular(10),
+                                                topRight: Radius.circular(0),
+                                              ),
+                                            ),
+                                            child: Align(
+                                              alignment:
+                                                  AlignmentDirectional(0, 0),
+                                              child: Text(
+                                                '2',
+                                                style:
+                                                    FlutterFlowTheme.of(context)
+                                                        .bodyText1,
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                      ),
                                     ],
                                   ),
                                   Column(
@@ -3243,6 +3414,64 @@ class _FormWidgetState extends State<FormWidget> {
                                                 EdgeInsetsDirectional.fromSTEB(
                                                     12, 4, 12, 4),
                                             hidesUnderline: true,
+                                          ),
+                                        ),
+                                      ),
+                                      Visibility(
+                                        visible: add,
+                                        child: Padding(
+                                          padding:
+                                              EdgeInsetsDirectional.fromSTEB(
+                                                  0, 20, 0, 0),
+                                          child: Container(
+                                            height: 70,
+                                            decoration: BoxDecoration(
+                                              color:
+                                                  FlutterFlowTheme.of(context)
+                                                      .secondaryBackground,
+                                              border: Border.all(
+                                                color: Color(0xFF979797),
+                                                width: 0.25,
+                                              ),
+                                            ),
+                                            child: FlutterFlowDropDown(
+                                              options: [
+                                                'Husband',
+                                                'Wife',
+                                                'Child',
+                                                'Father',
+                                                'Mother'
+                                              ],
+                                              onChanged: (val) => setState(
+                                                  () => dropDownValue = val),
+                                              width: 180,
+                                              height: 50,
+                                              textStyle:
+                                                  FlutterFlowTheme.of(context)
+                                                      .bodyText1
+                                                      .override(
+                                                        fontFamily: 'Segoe UI',
+                                                        color:
+                                                            Color(0xFF979797),
+                                                        fontWeight:
+                                                            FontWeight.normal,
+                                                        useGoogleFonts: false,
+                                                      ),
+                                              hintText: 'Select Relationship',
+                                              icon: Icon(
+                                                Icons.keyboard_arrow_down,
+                                                color: Color(0xFF4B65B2),
+                                                size: 20,
+                                              ),
+                                              fillColor: Colors.white,
+                                              elevation: 2,
+                                              borderColor: Colors.transparent,
+                                              borderWidth: 0,
+                                              borderRadius: 0,
+                                              margin: EdgeInsetsDirectional
+                                                  .fromSTEB(12, 4, 12, 4),
+                                              hidesUnderline: true,
+                                            ),
                                           ),
                                         ),
                                       ),
@@ -3387,6 +3616,137 @@ class _FormWidgetState extends State<FormWidget> {
                                           ),
                                         ),
                                       ),
+                                      Visibility(
+                                        visible: add,
+                                        child: Padding(
+                                          padding:
+                                              EdgeInsetsDirectional.fromSTEB(
+                                                  0, 20, 0, 0),
+                                          child: Container(
+                                            width: 100,
+                                            height: 70,
+                                            decoration: BoxDecoration(
+                                              color:
+                                                  FlutterFlowTheme.of(context)
+                                                      .secondaryBackground,
+                                              borderRadius: BorderRadius.only(
+                                                bottomLeft: Radius.circular(0),
+                                                bottomRight:
+                                                    Radius.circular(10),
+                                                topLeft: Radius.circular(0),
+                                                topRight: Radius.circular(10),
+                                              ),
+                                              border: Border.all(
+                                                color: Color(0xFF979797),
+                                                width: 0.25,
+                                              ),
+                                            ),
+                                            child: Row(
+                                              mainAxisSize: MainAxisSize.max,
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.center,
+                                              children: [
+                                                Expanded(
+                                                  child: Container(
+                                                    decoration: BoxDecoration(
+                                                      color: FlutterFlowTheme
+                                                              .of(context)
+                                                          .secondaryBackground,
+                                                    ),
+                                                    child: Padding(
+                                                      padding:
+                                                          EdgeInsetsDirectional
+                                                              .fromSTEB(
+                                                                  10, 0, 0, 0),
+                                                      child: TextFormField(
+                                                        controller:
+                                                            textController,
+                                                        autofocus: true,
+                                                        obscureText: false,
+                                                        decoration:
+                                                            InputDecoration(
+                                                          hintText: 'Enter',
+                                                          enabledBorder:
+                                                              UnderlineInputBorder(
+                                                            borderSide:
+                                                                BorderSide(
+                                                              color: Color(
+                                                                  0x00000000),
+                                                              width: 1,
+                                                            ),
+                                                            borderRadius:
+                                                                const BorderRadius
+                                                                    .only(
+                                                              topLeft: Radius
+                                                                  .circular(
+                                                                      4.0),
+                                                              topRight: Radius
+                                                                  .circular(
+                                                                      4.0),
+                                                            ),
+                                                          ),
+                                                          focusedBorder:
+                                                              UnderlineInputBorder(
+                                                            borderSide:
+                                                                BorderSide(
+                                                              color: Color(
+                                                                  0x00000000),
+                                                              width: 1,
+                                                            ),
+                                                            borderRadius:
+                                                                const BorderRadius
+                                                                    .only(
+                                                              topLeft: Radius
+                                                                  .circular(
+                                                                      4.0),
+                                                              topRight: Radius
+                                                                  .circular(
+                                                                      4.0),
+                                                            ),
+                                                          ),
+                                                        ),
+                                                        style:
+                                                            FlutterFlowTheme.of(
+                                                                    context)
+                                                                .bodyText1
+                                                                .override(
+                                                                  fontFamily:
+                                                                      'Segoe UI',
+                                                                  color: Color(
+                                                                      0xFF979797),
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .normal,
+                                                                  useGoogleFonts:
+                                                                      false,
+                                                                ),
+                                                        keyboardType:
+                                                            TextInputType
+                                                                .number,
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ),
+                                                // Padding(
+                                                //   padding: EdgeInsetsDirectional
+                                                //       .fromSTEB(0, 0, 10, 0),
+                                                //   child: Container(
+                                                //     width: 24,
+                                                //     height: 24,
+                                                //     clipBehavior: Clip.antiAlias,
+                                                //     decoration: BoxDecoration(
+                                                //       shape: BoxShape.circle,
+                                                //     ),
+                                                //     child: Image.asset(
+                                                //       'assets/images/Untitled-9.png',
+                                                //     ),
+                                                //   ),
+                                                // ),
+                                              ],
+                                            ),
+                                          ),
+                                        ),
+                                      ),
                                     ],
                                   ),
                                 ],
@@ -3394,41 +3754,51 @@ class _FormWidgetState extends State<FormWidget> {
                               const SizedBox(
                                 height: 15,
                               ),
-                              // Row(
-                              //   // crossAxisAlignment: CrossAxisAlignment.end,
-                              //   mainAxisAlignment: MainAxisAlignment.end,
-                              //   children: [
-                              //     Text(
-                              //       "Add",
-                              //       style: FlutterFlowTheme.of(context)
-                              //           .bodyText1
-                              //           .override(
-                              //             fontFamily: 'Segoe UI',
-                              //             color: Color(0xFF37474F),
-                              //             fontWeight: FontWeight.normal,
-                              //             useGoogleFonts: false,
-                              //           ),
-                              //     ),
-                              //     const SizedBox(
-                              //       width: 8,
-                              //     ),
-                              //     Padding(
-                              //       padding: EdgeInsetsDirectional.fromSTEB(
-                              //           0, 0, 30, 0),
-                              //       child: Container(
-                              //         width: 18,
-                              //         height: 18,
-                              //         clipBehavior: Clip.antiAlias,
-                              //         decoration: BoxDecoration(
-                              //           shape: BoxShape.circle,
-                              //         ),
-                              //         child: Image.asset(
-                              //           'assets/images/Untitled-9.png',
-                              //         ),
-                              //       ),
-                              //     ),
-                              //   ],
-                              // ),
+                              Visibility(
+                                visible: !add,
+                                child: InkWell(
+                                  onTap: () {
+                                    setState(() {
+                                      add = true;
+                                    });
+                                  },
+                                  child: Row(
+                                    // crossAxisAlignment: CrossAxisAlignment.end,
+                                    mainAxisAlignment: MainAxisAlignment.end,
+                                    children: [
+                                      Text(
+                                        "Add",
+                                        style: FlutterFlowTheme.of(context)
+                                            .bodyText1
+                                            .override(
+                                              fontFamily: 'Segoe UI',
+                                              color: Color(0xFF37474F),
+                                              fontWeight: FontWeight.normal,
+                                              useGoogleFonts: false,
+                                            ),
+                                      ),
+                                      const SizedBox(
+                                        width: 8,
+                                      ),
+                                      Padding(
+                                        padding: EdgeInsetsDirectional.fromSTEB(
+                                            0, 0, 30, 0),
+                                        child: Container(
+                                          width: 18,
+                                          height: 18,
+                                          clipBehavior: Clip.antiAlias,
+                                          decoration: BoxDecoration(
+                                            shape: BoxShape.circle,
+                                          ),
+                                          child: Image.asset(
+                                            'assets/images/Untitled-9.png',
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
                               Expanded(
                                 child: Column(
                                   mainAxisSize: MainAxisSize.max,

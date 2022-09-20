@@ -1,3 +1,5 @@
+import 'package:image_picker/image_picker.dart';
+
 import '../flutter_flow/flutter_flow_theme.dart';
 import '../flutter_flow/flutter_flow_util.dart';
 import 'package:flutter/material.dart';
@@ -42,9 +44,9 @@ class _BritishPassportWidgetState extends State<BritishPassportWidget> {
             ),
           ),
           Padding(
-            padding: EdgeInsetsDirectional.fromSTEB(15, 20, 0, 0),
+            padding: EdgeInsetsDirectional.fromSTEB(15, 20, 15, 0),
             child: Container(
-              width: 345,
+              width: 390,
               height: 96,
               decoration: BoxDecoration(
                 color: Color(0xFFEEF7FE),
@@ -53,31 +55,38 @@ class _BritishPassportWidgetState extends State<BritishPassportWidget> {
                 padding: EdgeInsetsDirectional.fromSTEB(20, 0, 20, 0),
                 child: Row(
                   mainAxisSize: MainAxisSize.max,
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    Column(
-                      mainAxisSize: MainAxisSize.max,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Image.asset(
-                          'assets/images/Frame_(4).png',
-                          width: 41,
-                          height: 41,
-                          fit: BoxFit.cover,
-                        ),
-                        Text(
-                          'Photo Scan',
-                          style: FlutterFlowTheme.of(context)
-                              .bodyText1
-                              .override(
-                                fontFamily: 'Seoge UI',
-                                color:
-                                    FlutterFlowTheme.of(context).primaryColor,
-                                useGoogleFonts: false,
-                              ),
-                        ),
-                      ],
+                    InkWell(
+                      onTap: () {
+                        // final ImagePicker picker = ImagePicker();
+                        final image =
+                            ImagePicker().pickImage(source: ImageSource.camera);
+                      },
+                      child: Column(
+                        mainAxisSize: MainAxisSize.max,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Image.asset(
+                            'assets/images/Frame_(4).png',
+                            width: 41,
+                            height: 41,
+                            fit: BoxFit.cover,
+                          ),
+                          Text(
+                            'Photo Scan',
+                            style: FlutterFlowTheme.of(context)
+                                .bodyText1
+                                .override(
+                                  fontFamily: 'Seoge UI',
+                                  color:
+                                      FlutterFlowTheme.of(context).primaryColor,
+                                  useGoogleFonts: false,
+                                ),
+                          ),
+                        ],
+                      ),
                     ),
                     Container(
                       width: 1,
@@ -86,28 +95,34 @@ class _BritishPassportWidgetState extends State<BritishPassportWidget> {
                         color: Color(0x80000000),
                       ),
                     ),
-                    Column(
-                      mainAxisSize: MainAxisSize.max,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Image.asset(
-                          'assets/images/Frame_(5).png',
-                          width: 41,
-                          height: 41,
-                          fit: BoxFit.cover,
-                        ),
-                        Text(
-                          'Upload pdf/jpeg',
-                          style: FlutterFlowTheme.of(context)
-                              .bodyText1
-                              .override(
-                                fontFamily: 'Seoge UI',
-                                color:
-                                    FlutterFlowTheme.of(context).primaryColor,
-                                useGoogleFonts: false,
-                              ),
-                        ),
-                      ],
+                    InkWell(
+                      onTap: () {
+                        final image = ImagePicker()
+                            .pickImage(source: ImageSource.gallery);
+                      },
+                      child: Column(
+                        mainAxisSize: MainAxisSize.max,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Image.asset(
+                            'assets/images/Frame_(5).png',
+                            width: 41,
+                            height: 41,
+                            fit: BoxFit.cover,
+                          ),
+                          Text(
+                            'Upload pdf/jpeg',
+                            style: FlutterFlowTheme.of(context)
+                                .bodyText1
+                                .override(
+                                  fontFamily: 'Seoge UI',
+                                  color:
+                                      FlutterFlowTheme.of(context).primaryColor,
+                                  useGoogleFonts: false,
+                                ),
+                          ),
+                        ],
+                      ),
                     ),
                   ],
                 ),

@@ -16,12 +16,13 @@ class Applicant1documentsWidget extends StatefulWidget {
 
 class _Applicant1documentsWidgetState extends State<Applicant1documentsWidget> {
   final scaffoldKey = GlobalKey<ScaffoldState>();
+  String employement = "";
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       key: scaffoldKey,
-      backgroundColor: Colors.white,  
+      backgroundColor: Colors.white,
       body: GestureDetector(
         onTap: () => FocusScope.of(context).unfocus(),
         child: SingleChildScrollView(
@@ -335,21 +336,33 @@ class _Applicant1documentsWidgetState extends State<Applicant1documentsWidget> {
                                     EdgeInsetsDirectional.fromSTEB(0, 0, 30, 0),
                                 child: FFButtonWidget(
                                   onPressed: () {
-                                    print('Button pressed ...');
+                                    setState(() {
+                                      employement = "Employed";
+                                    });
                                   },
                                   text: 'Employed',
                                   options: FFButtonOptions(
                                     width: 140,
                                     height: 50,
-                                    color: FlutterFlowTheme.of(context)
-                                        .primaryColor,
-                                    textStyle: FlutterFlowTheme.of(context)
-                                        .subtitle2
-                                        .override(
-                                          fontFamily: 'Seoge UI',
-                                          color: Colors.white,
-                                          useGoogleFonts: false,
-                                        ),
+                                    color: employement == "Employed"
+                                        ? FlutterFlowTheme.of(context)
+                                            .primaryColor
+                                        : Color(0xFFEEF7FE),
+                                    textStyle: employement == "Employed"
+                                        ? FlutterFlowTheme.of(context)
+                                            .subtitle2
+                                            .override(
+                                              fontFamily: 'Seoge UI',
+                                              color: Colors.white,
+                                              useGoogleFonts: false,
+                                            )
+                                        : FlutterFlowTheme.of(context)
+                                            .subtitle2
+                                            .override(
+                                              fontFamily: 'Segoe UI',
+                                              color: Color(0xFF263238),
+                                              useGoogleFonts: false,
+                                            ),
                                     borderSide: BorderSide(
                                       color: Colors.transparent,
                                       width: 1,
@@ -360,20 +373,33 @@ class _Applicant1documentsWidgetState extends State<Applicant1documentsWidget> {
                               ),
                               FFButtonWidget(
                                 onPressed: () {
-                                  print('Button pressed ...');
+                                  setState(() {
+                                    employement = "Self Employed";
+                                  });
                                 },
-                                text: 'Self Employed',
+                                text: "Self Employed",
                                 options: FFButtonOptions(
-                                  width: 140,
+                                  width: 158,
                                   height: 50,
-                                  color: Color(0xFFEEF7FE),
-                                  textStyle: FlutterFlowTheme.of(context)
-                                      .subtitle2
-                                      .override(
-                                        fontFamily: 'Seoge UI',
-                                        color: Color(0xFF263238),
-                                        useGoogleFonts: false,
-                                      ),
+                                  color: employement == "Self Employed"
+                                      ? FlutterFlowTheme.of(context)
+                                          .primaryColor
+                                      : Color(0xFFEEF7FE),
+                                  textStyle: employement == "Self Employed"
+                                      ? FlutterFlowTheme.of(context)
+                                          .subtitle2
+                                          .override(
+                                            fontFamily: 'Seoge UI',
+                                            color: Colors.white,
+                                            useGoogleFonts: false,
+                                          )
+                                      : FlutterFlowTheme.of(context)
+                                          .subtitle2
+                                          .override(
+                                            fontFamily: 'Segoe UI',
+                                            color: Color(0xFF263238),
+                                            useGoogleFonts: false,
+                                          ),
                                   borderSide: BorderSide(
                                     color: Colors.transparent,
                                     width: 1,

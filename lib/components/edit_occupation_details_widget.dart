@@ -1,25 +1,23 @@
-import 'dart:convert';
-
+import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:freedom/backend/api.dart';
+
 import 'package:http/http.dart' as http;
 
 import '../flutter_flow/flutter_flow_drop_down.dart';
 import '../flutter_flow/flutter_flow_theme.dart';
 import '../flutter_flow/flutter_flow_util.dart';
 import '../flutter_flow/flutter_flow_widgets.dart';
-import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 
-class OccupationDetailsWidget extends StatefulWidget {
-  const OccupationDetailsWidget({Key? key}) : super(key: key);
+import '../backend/api.dart';
+
+class EditOccupationDetails extends StatefulWidget {
+  EditOccupationDetails({Key? key}) : super(key: key);
 
   @override
-  _OccupationDetailsWidgetState createState() =>
-      _OccupationDetailsWidgetState();
+  State<EditOccupationDetails> createState() => _EditOccupationDetailsState();
 }
 
-class _OccupationDetailsWidgetState extends State<OccupationDetailsWidget> {
+class _EditOccupationDetailsState extends State<EditOccupationDetails> {
   String? dropDownValue1;
   TextEditingController? textController1;
   TextEditingController? textController2;
@@ -30,14 +28,17 @@ class _OccupationDetailsWidgetState extends State<OccupationDetailsWidget> {
   String? ownShares;
   String? kindOfEmp;
   DateTime? date;
+  // String? dropdownInitial1;
+  // String? dropdownInitial2;
 
   @override
   void initState() {
     super.initState();
-    textController1 = TextEditingController();
-    textController2 = TextEditingController();
-    textController3 = TextEditingController();
+    // textController1 = TextEditingController();
+    // textController2 = TextEditingController();
+    // textController3 = TextEditingController();
     setData();
+    fillDetails();
   }
 
   Future setData() async {
@@ -50,6 +51,30 @@ class _OccupationDetailsWidgetState extends State<OccupationDetailsWidget> {
     });
   }
 
+  Future fillDetails() async {
+    //  final userId = await ApiFunctions().getUserId();
+    // final id = await ApiFunctions().getApplicantId();
+    final data = await ApiFunctions().getApplicantData();
+    print(data);
+
+    final occupation = jsonDecode(data["occupation"]);
+
+    print(occupation["employementStatus"]);
+    print(occupation["durationOfPay"]);
+
+    setState(() {
+      textController1 = TextEditingController(text: occupation["jobTitle"]);
+      textController2 = TextEditingController(text: occupation["startDate"]);
+      textController3 =
+          TextEditingController(text: occupation["currentSalary"]);
+      parentalLeave = occupation["parentalLeave"];
+      ownShares = occupation["ownSharesInOwnCompany"];
+      kindOfEmp = occupation["kindOfEmployee"];
+      dropDownValue1 = occupation["employementStatus"];
+      dropDownValue2 = occupation["durationOfPay"];
+    });
+  }
+
   Future addApplicantOccupationDetails() async {
     final id = await ApiFunctions().getApplicantId();
     print(id);
@@ -58,7 +83,7 @@ class _OccupationDetailsWidgetState extends State<OccupationDetailsWidget> {
       var data = {
         "employementStatus": dropDownValue1 ?? "null",
         "jobTitle": textController1?.text,
-        "parentalLeave": parentalLeave,
+        "paretalLeave": parentalLeave,
         "ownSharesInOwnCompany": ownShares,
         "kindOfEmployee": kindOfEmp,
         "startDate": textController2?.text,
@@ -185,6 +210,7 @@ class _OccupationDetailsWidgetState extends State<OccupationDetailsWidget> {
                 'Un-employed',
                 'Retired'
               ],
+              initialOption: dropDownValue1,
               onChanged: (val) => setState(() => dropDownValue1 = val),
               width: MediaQuery.of(context).size.width * 0.9,
               height: 50,
@@ -311,11 +337,11 @@ class _OccupationDetailsWidgetState extends State<OccupationDetailsWidget> {
                                 color: Colors.white,
                                 useGoogleFonts: false,
                               )
-                            : FlutterFlowTheme.of(context).subtitle2.override(
-                                  fontFamily: 'Segoe UI',
-                                  color: Color(0xFF263238),
-                                  useGoogleFonts: false,
-                                ),
+                          : FlutterFlowTheme.of(context).subtitle2.override(
+                                fontFamily: 'Segoe UI',
+                                color: Color(0xFF263238),
+                                useGoogleFonts: false,
+                              ),
                       borderSide: BorderSide(
                         color: Colors.transparent,
                         width: 1,
@@ -756,6 +782,7 @@ class _OccupationDetailsWidgetState extends State<OccupationDetailsWidget> {
             padding: EdgeInsetsDirectional.fromSTEB(20, 0, 0, 0),
             child: FlutterFlowDropDown(
               options: ['Daily', 'Weekly', 'Fortnightly', 'Monthly'],
+              initialOption: dropDownValue2,
               onChanged: (val) => setState(() => dropDownValue2 = val),
               width: MediaQuery.of(context).size.width * 0.9,
               height: 50,

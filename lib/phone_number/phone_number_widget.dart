@@ -240,6 +240,12 @@ class _PhoneNumberWidgetState extends State<PhoneNumberWidget> {
                 padding: EdgeInsetsDirectional.fromSTEB(0, 40, 0, 0),
                 child: InkWell(
                   onTap: () async {
+                    // await Navigator.push(
+                    //   context,
+                    //   MaterialPageRoute(
+                    //     builder: (context) => OtpWidget(),
+                    //   ),
+                    // );
                     if (textController1?.text != null &&
                         textController1?.text != "") {
                       await addUserNumber(textController1!.text);

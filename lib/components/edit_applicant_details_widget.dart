@@ -1,30 +1,22 @@
-import 'package:dio/dio.dart';
+import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:freedom/backend/api.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 import '../flutter_flow/flutter_flow_drop_down.dart';
 import '../flutter_flow/flutter_flow_icon_button.dart';
 import '../flutter_flow/flutter_flow_theme.dart';
 import '../flutter_flow/flutter_flow_util.dart';
-import 'package:cached_network_image/cached_network_image.dart';
-import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:google_fonts/google_fonts.dart';
 
-class ApplicantDetailsWidget extends StatefulWidget {
-  const ApplicantDetailsWidget({
-    Key? key,
-    this.heading,
-  }) : super(key: key);
-
-  final String? heading;
+class EditApplicantDetails extends StatefulWidget {
+  EditApplicantDetails({Key? key}) : super(key: key);
 
   @override
-  _ApplicantDetailsWidgetState createState() => _ApplicantDetailsWidgetState();
+  State<EditApplicantDetails> createState() => _EditApplicantDetailsState();
 }
 
-class _ApplicantDetailsWidgetState extends State<ApplicantDetailsWidget> {
+class _EditApplicantDetailsState extends State<EditApplicantDetails> {
   String? dropDownValue1;
   TextEditingController? textController1;
   TextEditingController? textController2;
@@ -40,25 +32,45 @@ class _ApplicantDetailsWidgetState extends State<ApplicantDetailsWidget> {
   @override
   void initState() {
     super.initState();
-    textController1 = TextEditingController();
-    textController2 = TextEditingController();
-    textController3 = TextEditingController();
-    textController4 = TextEditingController();
+    // textController1 = TextEditingController();
+    // textController2 = TextEditingController();
+    // textController3 = TextEditingController();
+    // textController4 = TextEditingController();
     textController5 = TextEditingController(text: '+44');
-    textController6 = TextEditingController();
-    textController7 = TextEditingController();
+    // textController6 = TextEditingController();
+    // textController7 = TextEditingController();
+    fillDetails();
   }
 
-  Future addApplicantDetails() async {
-    final prefs = await SharedPreferences.getInstance();
-    final user = prefs.getString("user_id");
+  Future fillDetails() async {
+    final data = await ApiFunctions().getApplicantData();
+    print(data["firstname"]);
+
+    setState(() {
+      textController1 = TextEditingController(text: data["firstname"]);
+      textController2 = TextEditingController(text: data["middlename"]);
+      textController3 = TextEditingController(text: data["surname"]);
+      textController4 = TextEditingController(text: data["dateofbirth"]);
+      textController6 = TextEditingController(text: data["mobilenumber"]);
+      textController7 = TextEditingController(text: data["emailid"]);
+      dropDownValue1 = data["maritalstatus"];
+      dropDownValue2 = data["visa"];
+      FFAppState().nationality = "United Kingdom";
+    });
+  }
+
+  Future updateApplicantDetails() async {
+    // final prefs = await SharedPreferences.getInstance();
+    // final user = prefs.getString("user_id");
+      final userId = await ApiFunctions().getUserId();
+      final id = await ApiFunctions().getApplicantId();
 
     try {
-      var response = await http.post(
+      var response = await http.patch(
         Uri.parse(
-            "http://ec2-18-169-165-31.eu-west-2.compute.amazonaws.com:5500/applicant/add"),
+            "http://ec2-18-169-165-31.eu-west-2.compute.amazonaws.com:5500/applicant/$id"),
         body: {
-          "user": user ?? "null",
+          "user": userId,
           "firstname": textController1?.text,
           "middlename": textController2?.text,
           "surname": textController3?.text,
@@ -73,9 +85,9 @@ class _ApplicantDetailsWidgetState extends State<ApplicantDetailsWidget> {
 
       print(response.body);
       var body = jsonDecode(response.body);
-      print(body["_id"]);
+      // print(body["_id"]);
 
-      await prefs.setString("applicant_id", body["_id"]);
+      // await prefs.setString("applicant_id", body["_id"]);
 
       print(response);
       if (response.statusCode == 200) {
@@ -96,16 +108,6 @@ class _ApplicantDetailsWidgetState extends State<ApplicantDetailsWidget> {
       Navigator.pop(context, false);
     }
   }
-
-  // Future setName() async {
-  //   final data = await ApiFunctions().getApplicantData();
-
-  //   print(data["firstname"]);
-
-  //   setState(() {
-  //     name = '${data["firstname"]} ${data["lastname"]}';
-  //   });
-  // }
 
   @override
   Widget build(BuildContext context) {
@@ -147,7 +149,7 @@ class _ApplicantDetailsWidgetState extends State<ApplicantDetailsWidget> {
                         },
                       ),
                       Text(
-                        widget.heading!,
+                        "Update Applicant Details",
                         style: FlutterFlowTheme.of(context).bodyText1.override(
                               fontFamily: 'Segoe UI',
                               color: Colors.white,
@@ -1047,7 +1049,7 @@ class _ApplicantDetailsWidgetState extends State<ApplicantDetailsWidget> {
                                         // dropDownValue1.toString() !=
                                         //     "Marital Status"
                                         ) {
-                                      await addApplicantDetails();
+                                      await updateApplicantDetails();
                                     } else {
                                       print("alll details not filled");
                                       Fluttertoast.showToast(
