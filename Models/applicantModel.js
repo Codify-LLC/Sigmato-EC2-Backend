@@ -50,7 +50,12 @@ const applicantSchema = new Schema({
 	},
 	documents: {
 		type: Object
-	}
+	},
+	user: {
+		type: Schema.Types.ObjectId,
+		ref: 'User',
+		required: true,
+	},
 });
 
 const Applicant = mongoose.models.Applicant || mongoose.model('Applicant', applicantSchema);
