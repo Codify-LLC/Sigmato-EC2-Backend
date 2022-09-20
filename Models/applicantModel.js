@@ -16,7 +16,7 @@ const applicantSchema = new Schema({
 		required: true
 	},
 	dateofbirth: {
-		type: Date,
+		type: String,
 	},
 	nationality: {
 		type: String
