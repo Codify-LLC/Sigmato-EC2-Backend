@@ -4,11 +4,11 @@ const mongoose = require('mongoose');
 const userSchema = new Schema({
 	firstname: {
 		type: String,
-		required: true
+		required: false
 	},
 	lastname: {
 		type: String,
-		required: true
+		required: false
 	},
 	phonenumber: {
 		type: String,
@@ -16,7 +16,7 @@ const userSchema = new Schema({
 	},
 	photoURL: {
 		type: String,
-		requried: true
+		requried: false
 	},
 	applicant1: {
 		type: Schema.Types.ObjectId,
