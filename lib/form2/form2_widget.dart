@@ -1,5 +1,7 @@
-import 'package:freedom/applicant1documents/applicant1documents_widget.dart';
+import 'package:dotted_line/dotted_line.dart';
+import 'package:freedom/applicant1documents/add_documents.dart';
 import 'package:freedom/components/current_property_details.dart';
+import 'package:freedom/components/form_2/add_property.dart';
 import 'package:freedom/components/outstanding_details_widget.dart';
 import 'package:freedom/current_address_details.dart';
 import 'package:freedom/my_application_summary.dart';
@@ -18,7 +20,21 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:percent_indicator/percent_indicator.dart';
 
 class Form2Widget extends StatefulWidget {
-  const Form2Widget({Key? key}) : super(key: key);
+  final String address;
+  final String postcode;
+  final String mortBalance;
+  final String remMort;
+  final String propValue;
+  final String mortLender;
+  const Form2Widget(
+      {Key? key,
+      required this.address,
+      required this.postcode,
+      required this.mortBalance,
+      required this.remMort,
+      required this.propValue,
+      required this.mortLender})
+      : super(key: key);
 
   @override
   _Form2WidgetState createState() => _Form2WidgetState();
@@ -28,6 +44,7 @@ class _Form2WidgetState extends State<Form2Widget> {
   PageController? pageViewController;
   String? dropDownValue;
   TextEditingController? textController;
+  List<bool> docs = [];
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
@@ -244,176 +261,594 @@ class _Form2WidgetState extends State<Form2Widget> {
                                       crossAxisAlignment:
                                           CrossAxisAlignment.start,
                                       children: [
-                                        Padding(
-                                          padding:
-                                              EdgeInsetsDirectional.fromSTEB(
-                                                  0, 20, 0, 0),
-                                          child: Container(
-                                            height: 50,
-                                            width: 50,
-                                            padding: EdgeInsets.all(13),
-                                            decoration: BoxDecoration(
-                                              color: Color(0xFFEEF7FE),
-                                              borderRadius:
-                                                  BorderRadius.circular(10),
-                                            ),
-                                            child: Image.asset(
-                                              "assets/images/building3.png",
-                                            ),
-                                          ),
-                                        ),
+                                        // Padding(
+                                        //   padding:
+                                        //       EdgeInsetsDirectional.fromSTEB(
+                                        //           0, 20, 0, 0),
+                                        //   child: Container(
+                                        //     height: 50,
+                                        //     width: 50,
+                                        //     padding: EdgeInsets.all(13),
+                                        //     decoration: BoxDecoration(
+                                        //       color: Color(0xFFEEF7FE),
+                                        //       borderRadius:
+                                        //           BorderRadius.circular(10),
+                                        //     ),
+                                        //     child: Image.asset(
+                                        //       "assets/images/building3.png",
+                                        //     ),
+                                        //   ),
+                                        // ),
+
+                                        // AddProperty(
+                                        //   address: widget.address,
+                                        //   postcode: widget.postcode,
+                                        // ),
+
                                         Padding(
                                           padding:
                                               EdgeInsetsDirectional.fromSTEB(
                                                   0, 15, 0, 0),
-                                          child: InkWell(
-                                            onTap: () async {
-                                              await showModalBottomSheet(
-                                                isScrollControlled: true,
-                                                backgroundColor:
-                                                    FlutterFlowTheme.of(context)
-                                                        .primaryBackground,
-                                                barrierColor:
-                                                    FlutterFlowTheme.of(context)
-                                                        .primaryBackground,
-                                                context: context,
-                                                builder: (context) {
-                                                  return Padding(
-                                                    padding:
-                                                        MediaQuery.of(context)
-                                                            .viewInsets,
-                                                    child: Container(
-                                                      height:
-                                                          MediaQuery.of(context)
-                                                                  .size
-                                                                  .height *
-                                                              1,
-                                                      child: AddAddressWidget(),
-                                                    ),
-                                                  );
-                                                },
-                                              );
-                                            },
-                                            child: Container(
-                                              decoration: BoxDecoration(
-                                                color: Colors.white,
-                                                boxShadow: [
-                                                  BoxShadow(
-                                                    blurRadius: 16,
-                                                    color: Color(0xFF000000)
-                                                        .withOpacity(0.05),
-                                                    offset: Offset(0, 4),
-                                                  )
-                                                ],
-                                                borderRadius:
-                                                    BorderRadius.circular(10),
-                                              ),
-                                              child: Padding(
-                                                padding: EdgeInsetsDirectional
-                                                    .fromSTEB(30, 10, 30, 10),
-                                                child: Row(
-                                                  mainAxisSize:
-                                                      MainAxisSize.max,
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment
-                                                          .spaceBetween,
-                                                  children: [
-                                                    Column(
-                                                      mainAxisSize:
-                                                          MainAxisSize.max,
-                                                      crossAxisAlignment:
-                                                          CrossAxisAlignment
-                                                              .start,
-                                                      children: [
-                                                        Text(
-                                                          'Add property',
-                                                          style: FlutterFlowTheme
-                                                                  .of(context)
-                                                              .bodyText1
-                                                              .override(
-                                                                fontSize: 14,
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .w600,
-                                                                fontFamily:
-                                                                    'Segoe UI',
-                                                                color: Color(
-                                                                    0xFF4B65B2),
-                                                                useGoogleFonts:
-                                                                    false,
-                                                              ),
-                                                        ),
-                                                      ],
-                                                    ),
-                                                    InkWell(
-                                                      onTap: () async {
-                                                        await showModalBottomSheet(
-                                                          isScrollControlled:
-                                                              true,
-                                                          backgroundColor:
-                                                              FlutterFlowTheme.of(
-                                                                      context)
-                                                                  .primaryBackground,
-                                                          barrierColor:
-                                                              FlutterFlowTheme.of(
-                                                                      context)
-                                                                  .primaryBackground,
-                                                          context: context,
-                                                          builder: (context) {
-                                                            return Padding(
-                                                              padding: MediaQuery
-                                                                      .of(context)
-                                                                  .viewInsets,
-                                                              child: Container(
-                                                                height: MediaQuery.of(
-                                                                            context)
-                                                                        .size
-                                                                        .height *
-                                                                    1,
-                                                                child:
-                                                                    CurrentPropertyDetails(),
-                                                              ),
-                                                            );
-                                                          },
-                                                        );
-                                                      },
-                                                      child: Container(
-                                                        width: 26.67,
-                                                        height: 26.67,
+                                          child: Container(
+                                            decoration: BoxDecoration(
+                                              color: Colors.white,
+                                              boxShadow: [
+                                                BoxShadow(
+                                                  blurRadius: 16,
+                                                  color: Color(0xFF000000)
+                                                      .withOpacity(0.05),
+                                                  offset: Offset(0, 4),
+                                                )
+                                              ],
+                                              borderRadius:
+                                                  BorderRadius.circular(10),
+                                            ),
+                                            child: Padding(
+                                              padding: EdgeInsetsDirectional
+                                                  .fromSTEB(10, 10, 10, 10),
+                                              child: Column(
+                                                children: [
+                                                  Row(
+                                                    mainAxisSize:
+                                                        MainAxisSize.max,
+                                                    children: [
+                                                      Container(
+                                                        height: 50,
+                                                        width: 50,
+                                                        padding:
+                                                            EdgeInsets.all(13),
                                                         decoration:
                                                             BoxDecoration(
-                                                          gradient:
-                                                              LinearGradient(
-                                                            colors: [
-                                                              Color(0xFF4B65B2),
-                                                              Color(0xFF13BBE6)
-                                                            ],
-                                                            stops: [0, 1],
-                                                            begin:
-                                                                AlignmentDirectional(
-                                                                    -1, 0),
-                                                            end:
-                                                                AlignmentDirectional(
-                                                                    1, 0),
-                                                          ),
-                                                          shape:
-                                                              BoxShape.circle,
+                                                          color:
+                                                              Color(0xFFEEF7FE),
+                                                          borderRadius:
+                                                              BorderRadius
+                                                                  .circular(10),
                                                         ),
-                                                        child: Icon(
-                                                          Icons.add,
-                                                          color: FlutterFlowTheme
-                                                                  .of(context)
-                                                              .primaryBackground,
-                                                          size: 15,
+                                                        child: Image.asset(
+                                                          "assets/images/building3.png",
                                                         ),
                                                       ),
+                                                      SizedBox(
+                                                        width: 10,
+                                                      ),
+                                                      Text(
+                                                        FFAppState().addproperty
+                                                            ? "Current Residence"
+                                                            : 'Add property',
+                                                        style:
+                                                            FlutterFlowTheme.of(
+                                                                    context)
+                                                                .bodyText1
+                                                                .override(
+                                                                  fontSize: 14,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .w600,
+                                                                  fontFamily:
+                                                                      'Segoe UI',
+                                                                  color: Color(
+                                                                      0xFF4B65B2),
+                                                                  useGoogleFonts:
+                                                                      false,
+                                                                ),
+                                                      ),
+                                                      Spacer(),
+                                                      FFAppState().addproperty
+                                                          ? Row(
+                                                              children: [
+                                                                InkWell(
+                                                                  onTap: () {},
+                                                                  child: Image
+                                                                      .asset(
+                                                                    "assets/images/edit.png",
+                                                                    height: 18,
+                                                                    width: 18,
+                                                                  ),
+                                                                ),
+                                                                const SizedBox(
+                                                                  width: 15,
+                                                                ),
+                                                                InkWell(
+                                                                  child: Image
+                                                                      .asset(
+                                                                    "assets/images/delete.png",
+                                                                    height: 18,
+                                                                    width: 18,
+                                                                  ),
+                                                                ),
+                                                                const SizedBox(
+                                                                  width: 10,
+                                                                ),
+                                                              ],
+                                                            )
+                                                          : InkWell(
+                                                              onTap: () async {
+                                                                final value =
+                                                                    await showModalBottomSheet(
+                                                                  isScrollControlled:
+                                                                      true,
+                                                                  backgroundColor:
+                                                                      FlutterFlowTheme.of(
+                                                                              context)
+                                                                          .primaryBackground,
+                                                                  barrierColor:
+                                                                      FlutterFlowTheme.of(
+                                                                              context)
+                                                                          .primaryBackground,
+                                                                  context:
+                                                                      context,
+                                                                  builder:
+                                                                      (context) {
+                                                                    return Padding(
+                                                                      padding: MediaQuery.of(
+                                                                              context)
+                                                                          .viewInsets,
+                                                                      child:
+                                                                          Container(
+                                                                        height:
+                                                                            MediaQuery.of(context).size.height *
+                                                                                1,
+                                                                        child:
+                                                                            CurrentPropertyDetails(
+                                                                          address:
+                                                                              widget.address,
+                                                                          postcode:
+                                                                              widget.postcode,
+                                                                        ),
+                                                                      ),
+                                                                    );
+                                                                  },
+                                                                );
+
+                                                                setState(() {
+                                                                  FFAppState()
+                                                                          .addproperty =
+                                                                      value;
+                                                                });
+                                                              },
+                                                              child: Container(
+                                                                width: 26.67,
+                                                                height: 26.67,
+                                                                decoration:
+                                                                    BoxDecoration(
+                                                                  gradient:
+                                                                      LinearGradient(
+                                                                    colors: [
+                                                                      Color(
+                                                                          0xFF4B65B2),
+                                                                      Color(
+                                                                          0xFF13BBE6)
+                                                                    ],
+                                                                    stops: [
+                                                                      0,
+                                                                      1
+                                                                    ],
+                                                                    begin:
+                                                                        AlignmentDirectional(
+                                                                            -1,
+                                                                            0),
+                                                                    end:
+                                                                        AlignmentDirectional(
+                                                                            1,
+                                                                            0),
+                                                                  ),
+                                                                  shape: BoxShape
+                                                                      .circle,
+                                                                ),
+                                                                child: Icon(
+                                                                  Icons.add,
+                                                                  color: FlutterFlowTheme.of(
+                                                                          context)
+                                                                      .primaryBackground,
+                                                                  size: 18,
+                                                                ),
+                                                              ),
+                                                            ),
+                                                    ],
+                                                  ),
+                                                  if (FFAppState().addproperty)
+                                                    Column(
+                                                      children: [
+                                                        Padding(
+                                                          padding:
+                                                              EdgeInsetsDirectional
+                                                                  .fromSTEB(
+                                                                      0,
+                                                                      20,
+                                                                      0,
+                                                                      10),
+                                                          child: Container(
+                                                            width:
+                                                                double.infinity,
+                                                            padding:
+                                                                EdgeInsets.all(
+                                                                    13),
+                                                            decoration:
+                                                                BoxDecoration(
+                                                              color: Color(
+                                                                  0xFFEEF7FE),
+                                                              borderRadius:
+                                                                  BorderRadius
+                                                                      .circular(
+                                                                          10),
+                                                            ),
+                                                            child: Column(
+                                                              crossAxisAlignment:
+                                                                  CrossAxisAlignment
+                                                                      .start,
+                                                              children: [
+                                                                RichText(
+                                                                  text:
+                                                                      TextSpan(
+                                                                    children: [
+                                                                      WidgetSpan(
+                                                                        child: Image
+                                                                            .asset(
+                                                                          "assets/images/building3.png",
+                                                                          height:
+                                                                              19,
+                                                                          width:
+                                                                              19,
+                                                                        ),
+                                                                      ),
+                                                                      TextSpan(
+                                                                        text:
+                                                                            "  Address",
+                                                                        style: FlutterFlowTheme.of(context)
+                                                                            .bodyText1
+                                                                            .override(
+                                                                              fontFamily: 'Seoge UI',
+                                                                              fontSize: 16,
+                                                                              fontWeight: FontWeight.normal,
+                                                                              useGoogleFonts: false,
+                                                                            ),
+                                                                      )
+                                                                    ],
+                                                                  ),
+                                                                ),
+                                                                SizedBox(
+                                                                  height: 12,
+                                                                ),
+                                                                Text(
+                                                                  widget
+                                                                      .address,
+                                                                  style: FlutterFlowTheme.of(
+                                                                          context)
+                                                                      .bodyText1
+                                                                      .override(
+                                                                        color: Color(
+                                                                            0xff979797),
+                                                                        fontFamily:
+                                                                            'Seoge UI',
+                                                                        fontSize:
+                                                                            12,
+                                                                        fontWeight:
+                                                                            FontWeight.normal,
+                                                                        useGoogleFonts:
+                                                                            false,
+                                                                      ),
+                                                                ),
+                                                                SizedBox(
+                                                                  height: 8,
+                                                                ),
+                                                                Text(
+                                                                  widget
+                                                                      .postcode,
+                                                                  style: FlutterFlowTheme.of(
+                                                                          context)
+                                                                      .bodyText1
+                                                                      .override(
+                                                                        color: Color(
+                                                                            0xff979797),
+                                                                        fontFamily:
+                                                                            'Seoge UI',
+                                                                        fontSize:
+                                                                            16,
+                                                                        fontWeight:
+                                                                            FontWeight.normal,
+                                                                        useGoogleFonts:
+                                                                            false,
+                                                                      ),
+                                                                )
+                                                              ],
+                                                            ),
+                                                          ),
+                                                        ),
+                                                        Row(
+                                                          mainAxisAlignment:
+                                                              MainAxisAlignment
+                                                                  .spaceBetween,
+                                                          children: [
+                                                            Column(
+                                                              crossAxisAlignment:
+                                                                  CrossAxisAlignment
+                                                                      .start,
+                                                              children: [
+                                                                RichText(
+                                                                  text:
+                                                                      TextSpan(
+                                                                    children: [
+                                                                      WidgetSpan(
+                                                                        child: Image
+                                                                            .asset(
+                                                                          "assets/images/mortbalance.png",
+                                                                          height:
+                                                                              19,
+                                                                          width:
+                                                                              19,
+                                                                        ),
+                                                                      ),
+                                                                      TextSpan(
+                                                                        text:
+                                                                            "  Mortagage Balance",
+                                                                        style: FlutterFlowTheme.of(context)
+                                                                            .bodyText1
+                                                                            .override(
+                                                                              color: Color(0xff979797),
+                                                                              fontFamily: 'Seoge UI',
+                                                                              fontSize: 10,
+                                                                              fontWeight: FontWeight.normal,
+                                                                              useGoogleFonts: false,
+                                                                            ),
+                                                                      )
+                                                                    ],
+                                                                  ),
+                                                                ),
+                                                                Padding(
+                                                                  padding:
+                                                                      EdgeInsets
+                                                                          .only(
+                                                                              top: 5),
+                                                                  child: Text(
+                                                                    widget
+                                                                        .mortBalance,
+                                                                    style: FlutterFlowTheme.of(
+                                                                            context)
+                                                                        .bodyText1
+                                                                        .override(
+                                                                          fontFamily:
+                                                                              'Seoge UI',
+                                                                          fontSize:
+                                                                              14,
+                                                                          fontWeight:
+                                                                              FontWeight.normal,
+                                                                          useGoogleFonts:
+                                                                              false,
+                                                                        ),
+                                                                  ),
+                                                                )
+                                                              ],
+                                                            ),
+                                                            //
+                                                            //
+                                                            //
+                                                            Column(
+                                                              crossAxisAlignment:
+                                                                  CrossAxisAlignment
+                                                                      .start,
+                                                              children: [
+                                                                RichText(
+                                                                  text:
+                                                                      TextSpan(
+                                                                    children: [
+                                                                      WidgetSpan(
+                                                                        child: Image
+                                                                            .asset(
+                                                                          "assets/images/remmort.png",
+                                                                          height:
+                                                                              19,
+                                                                          width:
+                                                                              19,
+                                                                        ),
+                                                                      ),
+                                                                      TextSpan(
+                                                                        text:
+                                                                            "  Remaining term of Mortagage",
+                                                                        style: FlutterFlowTheme.of(context)
+                                                                            .bodyText1
+                                                                            .override(
+                                                                              color: Color(0xff979797),
+                                                                              fontFamily: 'Seoge UI',
+                                                                              fontSize: 10,
+                                                                              fontWeight: FontWeight.normal,
+                                                                              useGoogleFonts: false,
+                                                                            ),
+                                                                      )
+                                                                    ],
+                                                                  ),
+                                                                ),
+                                                                Padding(
+                                                                  padding:
+                                                                      EdgeInsets
+                                                                          .only(
+                                                                              top: 5),
+                                                                  child: Text(
+                                                                    widget
+                                                                        .remMort,
+                                                                    style: FlutterFlowTheme.of(
+                                                                            context)
+                                                                        .bodyText1
+                                                                        .override(
+                                                                          fontFamily:
+                                                                              'Seoge UI',
+                                                                          fontSize:
+                                                                              14,
+                                                                          fontWeight:
+                                                                              FontWeight.normal,
+                                                                          useGoogleFonts:
+                                                                              false,
+                                                                        ),
+                                                                  ),
+                                                                )
+                                                              ],
+                                                            )
+                                                          ],
+                                                        ),
+                                                        //
+                                                        //
+                                                        //
+                                                        SizedBox(
+                                                          height: 20,
+                                                        ),
+                                                        Row(
+                                                          mainAxisAlignment:
+                                                              MainAxisAlignment
+                                                                  .spaceBetween,
+                                                          children: [
+                                                            Column(
+                                                              crossAxisAlignment:
+                                                                  CrossAxisAlignment
+                                                                      .start,
+                                                              children: [
+                                                                RichText(
+                                                                  text:
+                                                                      TextSpan(
+                                                                    children: [
+                                                                      WidgetSpan(
+                                                                        child: Image
+                                                                            .asset(
+                                                                          "assets/images/propvalue.png",
+                                                                          height:
+                                                                              19,
+                                                                          width:
+                                                                              19,
+                                                                        ),
+                                                                      ),
+                                                                      TextSpan(
+                                                                        text:
+                                                                            "  Property Value (Approx.)",
+                                                                        style: FlutterFlowTheme.of(context)
+                                                                            .bodyText1
+                                                                            .override(
+                                                                              color: Color(0xff979797),
+                                                                              fontFamily: 'Seoge UI',
+                                                                              fontSize: 10,
+                                                                              fontWeight: FontWeight.normal,
+                                                                              useGoogleFonts: false,
+                                                                            ),
+                                                                      )
+                                                                    ],
+                                                                  ),
+                                                                ),
+                                                                Padding(
+                                                                  padding:
+                                                                      EdgeInsets
+                                                                          .only(
+                                                                              top: 5),
+                                                                  child: Text(
+                                                                    widget
+                                                                        .propValue,
+                                                                    style: FlutterFlowTheme.of(
+                                                                            context)
+                                                                        .bodyText1
+                                                                        .override(
+                                                                          fontFamily:
+                                                                              'Seoge UI',
+                                                                          fontSize:
+                                                                              14,
+                                                                          fontWeight:
+                                                                              FontWeight.normal,
+                                                                          useGoogleFonts:
+                                                                              false,
+                                                                        ),
+                                                                  ),
+                                                                )
+                                                              ],
+                                                            ),
+                                                            //
+                                                            //
+                                                            //
+                                                            Column(
+                                                              crossAxisAlignment:
+                                                                  CrossAxisAlignment
+                                                                      .start,
+                                                              children: [
+                                                                RichText(
+                                                                  text:
+                                                                      TextSpan(
+                                                                    children: [
+                                                                      WidgetSpan(
+                                                                        child: Image
+                                                                            .asset(
+                                                                          "assets/images/mortlender.png",
+                                                                          height:
+                                                                              19,
+                                                                          width:
+                                                                              19,
+                                                                        ),
+                                                                      ),
+                                                                      TextSpan(
+                                                                        text:
+                                                                            "  Mortagage Lender                     ",
+                                                                        style: FlutterFlowTheme.of(context)
+                                                                            .bodyText1
+                                                                            .override(
+                                                                              color: Color(0xff979797),
+                                                                              fontFamily: 'Seoge UI',
+                                                                              fontSize: 10,
+                                                                              fontWeight: FontWeight.normal,
+                                                                              useGoogleFonts: false,
+                                                                            ),
+                                                                      )
+                                                                    ],
+                                                                  ),
+                                                                ),
+                                                                Padding(
+                                                                  padding:
+                                                                      EdgeInsets
+                                                                          .only(
+                                                                              top: 5),
+                                                                  child: Text(
+                                                                    widget
+                                                                        .mortLender,
+                                                                    style: FlutterFlowTheme.of(
+                                                                            context)
+                                                                        .bodyText1
+                                                                        .override(
+                                                                          fontFamily:
+                                                                              'Seoge UI',
+                                                                          fontSize:
+                                                                              14,
+                                                                          fontWeight:
+                                                                              FontWeight.normal,
+                                                                          useGoogleFonts:
+                                                                              false,
+                                                                        ),
+                                                                  ),
+                                                                )
+                                                              ],
+                                                            )
+                                                          ],
+                                                        )
+                                                      ],
                                                     ),
-                                                  ],
-                                                ),
+                                                ],
                                               ),
                                             ),
                                           ),
                                         ),
+
                                         // if (FFAppState().whatAreYouLookingFor ==
                                         //     'Purchase')
                                         //   Padding(
@@ -1265,17 +1700,23 @@ class _Form2WidgetState extends State<Form2Widget> {
                                     Row(
                                       mainAxisSize: MainAxisSize.max,
                                       children: [
-                                        Container(
-                                          width: 32,
-                                          height: 32,
-                                          decoration: BoxDecoration(
-                                            color: FlutterFlowTheme.of(context)
-                                                .secondaryBackground,
-                                            image: DecorationImage(
-                                              fit: BoxFit.contain,
-                                              image: Image.asset(
-                                                'assets/images/Add_Button_(1).png',
-                                              ).image,
+                                        InkWell(
+                                          onTap: () {
+                                            Navigator.pop(context);
+                                          },
+                                          child: Container(
+                                            width: 32,
+                                            height: 32,
+                                            decoration: BoxDecoration(
+                                              color:
+                                                  FlutterFlowTheme.of(context)
+                                                      .secondaryBackground,
+                                              image: DecorationImage(
+                                                fit: BoxFit.contain,
+                                                image: Image.asset(
+                                                  'assets/images/Add_Button_(1).png',
+                                                ).image,
+                                              ),
                                             ),
                                           ),
                                         ),
@@ -1380,104 +1821,243 @@ class _Form2WidgetState extends State<Form2Widget> {
                                         ],
                                         borderRadius: BorderRadius.circular(10),
                                         border: Border.all(
-                                          color: Color(0xFF979797),
+                                          color: Color(0xFF979797)
+                                              .withOpacity(0.5),
                                           width: 0.25,
                                         ),
                                       ),
                                       child: Padding(
                                         padding: EdgeInsetsDirectional.fromSTEB(
                                             10, 10, 10, 10),
-                                        child: Row(
-                                          mainAxisSize: MainAxisSize.max,
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceBetween,
+                                        child: Column(
                                           children: [
-                                            Column(
+                                            Row(
                                               mainAxisSize: MainAxisSize.max,
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment
+                                                      .spaceBetween,
                                               children: [
-                                                Text(
-                                                  'Applicant 1 Documents',
-                                                  style: FlutterFlowTheme.of(
-                                                          context)
-                                                      .bodyText1
-                                                      .override(
-                                                        fontFamily: 'Seoge UI',
-                                                        color:
+                                                Column(
+                                                  mainAxisSize:
+                                                      MainAxisSize.max,
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
+                                                  children: [
+                                                    Text(
+                                                      'Applicant 1 Documents',
+                                                      style:
+                                                          FlutterFlowTheme.of(
+                                                                  context)
+                                                              .bodyText1
+                                                              .override(
+                                                                fontFamily:
+                                                                    'Seoge UI',
+                                                                color: FlutterFlowTheme.of(
+                                                                        context)
+                                                                    .primaryColor,
+                                                                useGoogleFonts:
+                                                                    false,
+                                                              ),
+                                                    ),
+                                                    Padding(
+                                                      padding:
+                                                          EdgeInsetsDirectional
+                                                              .fromSTEB(
+                                                                  0, 5, 0, 0),
+                                                      child: Text(
+                                                        'Name',
+                                                        style:
                                                             FlutterFlowTheme.of(
                                                                     context)
-                                                                .primaryColor,
-                                                        useGoogleFonts: false,
+                                                                .bodyText1
+                                                                .override(
+                                                                  fontFamily:
+                                                                      'Seoge UI',
+                                                                  color: Color(
+                                                                      0xFF979797),
+                                                                  fontSize: 12,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .w400,
+                                                                  useGoogleFonts:
+                                                                      false,
+                                                                ),
                                                       ),
+                                                    ),
+                                                  ],
                                                 ),
-                                                Padding(
-                                                  padding: EdgeInsetsDirectional
-                                                      .fromSTEB(0, 5, 0, 0),
-                                                  child: Text(
-                                                    'Carole Demas',
-                                                    style: FlutterFlowTheme.of(
-                                                            context)
-                                                        .bodyText1
-                                                        .override(
-                                                          fontFamily:
-                                                              'Seoge UI',
-                                                          color:
-                                                              Color(0xFF979797),
-                                                          useGoogleFonts: false,
-                                                        ),
+                                                InkWell(
+                                                  onTap: () async {
+                                                    final values =
+                                                        await showModalBottomSheet(
+                                                      isScrollControlled: true,
+                                                      backgroundColor:
+                                                          FlutterFlowTheme.of(
+                                                                  context)
+                                                              .primaryBackground,
+                                                      barrierColor:
+                                                          FlutterFlowTheme.of(
+                                                                  context)
+                                                              .primaryBackground,
+                                                      context: context,
+                                                      builder: (context) {
+                                                        return Padding(
+                                                          padding:
+                                                              MediaQuery.of(
+                                                                      context)
+                                                                  .viewInsets,
+                                                          child: Container(
+                                                            height: MediaQuery.of(
+                                                                        context)
+                                                                    .size
+                                                                    .height *
+                                                                1,
+                                                            child:
+                                                                AddDocuments(),
+                                                          ),
+                                                        );
+                                                      },
+                                                    );
+
+                                                    setState(() {
+                                                      docs = values;
+                                                    });
+                                                  },
+                                                  // onTap: () {
+                                                  //   Navigator.push(
+                                                  //       context,
+                                                  //       MaterialPageRoute(
+                                                  //           builder: (_) =>
+                                                  //               Applicant1documentsWidget()));
+                                                  // },
+                                                  child: Container(
+                                                    width: 30,
+                                                    height: 30,
+                                                    clipBehavior:
+                                                        Clip.antiAlias,
+                                                    decoration: BoxDecoration(
+                                                      shape: BoxShape.circle,
+                                                    ),
+                                                    child: Image.asset(
+                                                      'assets/images/Untitled-3.png',
+                                                    ),
                                                   ),
                                                 ),
                                               ],
                                             ),
-                                            InkWell(
-                                              onTap: () async {
-                                                await showModalBottomSheet(
-                                                  isScrollControlled: true,
-                                                  backgroundColor:
-                                                      FlutterFlowTheme.of(
-                                                              context)
-                                                          .primaryBackground,
-                                                  barrierColor:
-                                                      FlutterFlowTheme.of(
-                                                              context)
-                                                          .primaryBackground,
-                                                  context: context,
-                                                  builder: (context) {
-                                                    return Padding(
-                                                      padding:
-                                                          MediaQuery.of(context)
-                                                              .viewInsets,
-                                                      child: Container(
-                                                        height: MediaQuery.of(
-                                                                    context)
-                                                                .size
-                                                                .height *
-                                                            1,
-                                                        child:
-                                                            Applicant1documentsWidget(),
-                                                      ),
-                                                    );
-                                                  },
-                                                );
-                                              },
-                                              // onTap: () {
-                                              //   Navigator.push(
-                                              //       context,
-                                              //       MaterialPageRoute(
-                                              //           builder: (_) =>
-                                              //               Applicant1documentsWidget()));
-                                              // },
-                                              child: Container(
-                                                width: 30,
-                                                height: 30,
-                                                clipBehavior: Clip.antiAlias,
-                                                decoration: BoxDecoration(
-                                                  shape: BoxShape.circle,
-                                                ),
-                                                child: Image.asset(
-                                                  'assets/images/Untitled-3.png',
-                                                ),
+                                            Padding(
+                                              padding: EdgeInsets.symmetric(
+                                                  vertical: 8),
+                                              child: DottedLine(
+                                                dashColor: Color(0xff263238)
+                                                    .withOpacity(0.5),
+                                              ),
+                                            ),
+                                            ListTile(
+                                              visualDensity:
+                                                  VisualDensity(vertical: -3),
+                                              leading: FFAppState()
+                                                      .identityDoc
+                                                      .isEmpty
+                                                  ? Image.asset(
+                                                      "assets/images/not_verified.png")
+                                                  : Image.asset(
+                                                      "assets/images/verified_icon.png"),
+                                              minLeadingWidth: 20,
+                                              title: Text(
+                                                "Identity Document",
+                                                style:
+                                                    FlutterFlowTheme.of(context)
+                                                        .bodyText1
+                                                        .override(
+                                                          fontFamily:
+                                                              'Seoge UI',
+                                                          fontSize: 14,
+                                                          fontWeight:
+                                                              FontWeight.w400,
+                                                          useGoogleFonts: false,
+                                                        ),
+                                              ),
+                                            ),
+                                            ListTile(
+                                              visualDensity:
+                                                  VisualDensity(vertical: -3),
+                                              leading: FFAppState()
+                                                          .addressProof
+                                                          .length ==
+                                                      0
+                                                  ? Image.asset(
+                                                      "assets/images/not_verified.png")
+                                                  : Image.asset(
+                                                      "assets/images/verified_icon.png"),
+                                              minLeadingWidth: 20,
+                                              title: Text(
+                                                "Proof of Address",
+                                                style:
+                                                    FlutterFlowTheme.of(context)
+                                                        .bodyText1
+                                                        .override(
+                                                          fontFamily:
+                                                              'Seoge UI',
+                                                          fontSize: 14,
+                                                          fontWeight:
+                                                              FontWeight.w400,
+                                                          useGoogleFonts: false,
+                                                        ),
+                                              ),
+                                            ),
+                                            ListTile(
+                                              visualDensity:
+                                                  VisualDensity(vertical: -3),
+                                              leading: FFAppState()
+                                                          .employmentSlip
+                                                          .length ==
+                                                      0
+                                                  ? Image.asset(
+                                                      "assets/images/not_verified.png")
+                                                  : Image.asset(
+                                                      "assets/images/verified_icon.png"),
+                                              minLeadingWidth: 20,
+                                              title: Text(
+                                                "Employement",
+                                                style:
+                                                    FlutterFlowTheme.of(context)
+                                                        .bodyText1
+                                                        .override(
+                                                          fontFamily:
+                                                              'Seoge UI',
+                                                          fontSize: 14,
+                                                          fontWeight:
+                                                              FontWeight.w400,
+                                                          useGoogleFonts: false,
+                                                        ),
+                                              ),
+                                            ),
+                                            ListTile(
+                                              visualDensity:
+                                                  VisualDensity(vertical: -3),
+                                              leading: FFAppState()
+                                                          .bankStatement
+                                                          .length ==
+                                                      0
+                                                  ? Image.asset(
+                                                      "assets/images/not_verified.png")
+                                                  : Image.asset(
+                                                      "assets/images/verified_icon.png"),
+                                              minLeadingWidth: 20,
+                                              title: Text(
+                                                "Bank Statement",
+                                                style:
+                                                    FlutterFlowTheme.of(context)
+                                                        .bodyText1
+                                                        .override(
+                                                          fontFamily:
+                                                              'Seoge UI',
+                                                          fontSize: 14,
+                                                          fontWeight:
+                                                              FontWeight.w400,
+                                                          useGoogleFonts: false,
+                                                        ),
                                               ),
                                             ),
                                           ],

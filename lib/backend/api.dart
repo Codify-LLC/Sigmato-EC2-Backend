@@ -28,7 +28,7 @@ class ApiFunctions {
     );
 
     final body = jsonDecode(response.body);
-    print(response.body);
+    // print(response.body);
 
     return body;
   }
@@ -57,5 +57,30 @@ class ApiFunctions {
     }
 
     return body;
+  }
+
+  Future getAddressfromPostCode(String postCode) async {
+    try {
+      final response = await http.get(
+        Uri.parse(
+            "https://api.getAddress.io/find/$postCode?api-key=4IEhuuNkokamE7-8F5-QJQ36572  "),
+      );
+
+      final body = jsonDecode(response.body);
+
+      print(body);
+
+      return body;
+    } catch (e) {
+      Fluttertoast.showToast(
+        msg: "Error while deleting field",
+      );
+      print(e);
+    }
+  }
+
+  Future setOccupation(String oc) async {
+    final prefs = await SharedPreferences.getInstance();
+    final occupation = prefs.setString("occupation", oc);
   }
 }

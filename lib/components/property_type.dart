@@ -1,4 +1,4 @@
-import 'package:freedom/components/add_address_widget2.dart';
+import 'package:freedom/components/buy_to_let.dart';
 import 'package:freedom/components/add_current_residence_dialog.dart';
 
 import '../flutter_flow/flutter_flow_theme.dart';
@@ -78,7 +78,7 @@ class _PropertyTypeWidgetState extends State<PropertyTypeWidget> {
                       showDialog(
                         context: context,
                         builder: (_) {
-                          return AddAddressWidget2();
+                          return BuyToLet();
                         },
                       );
                     },

@@ -2,6 +2,7 @@ import 'package:freedom/documentupload/documentupload_widget.dart';
 import 'package:freedom/form2/form2_widget.dart';
 import 'package:freedom/property_details/property_details_widget.dart';
 
+import '../components/current_property_details.dart';
 import '../flutter_flow/flutter_flow_icon_button.dart';
 import '../flutter_flow/flutter_flow_theme.dart';
 import '../flutter_flow/flutter_flow_util.dart';
@@ -11,11 +12,17 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:percent_indicator/percent_indicator.dart';
 
 class BuytoletdeatilsWidget extends StatefulWidget {
-  const BuytoletdeatilsWidget({Key? key}) : super(key: key);
+  final String address;
+  final String postcode;
+  const BuytoletdeatilsWidget(
+      {Key? key, required this.address, required this.postcode})
+      : super(key: key);
 
   @override
   _BuytoletdeatilsWidgetState createState() => _BuytoletdeatilsWidgetState();
 }
+
+enum RepaymentType { repayment, interestOnly }
 
 class _BuytoletdeatilsWidgetState extends State<BuytoletdeatilsWidget> {
   TextEditingController? textController1;
@@ -25,6 +32,8 @@ class _BuytoletdeatilsWidgetState extends State<BuytoletdeatilsWidget> {
   TextEditingController? textController5;
   TextEditingController? textController6;
   TextEditingController? textController7;
+  RepaymentType? _repaymentType = RepaymentType.repayment;
+  String releaseFromEquity = "";
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
@@ -131,15 +140,70 @@ class _BuytoletdeatilsWidgetState extends State<BuytoletdeatilsWidget> {
                         Padding(
                           padding: EdgeInsetsDirectional.fromSTEB(0, 20, 0, 0),
                           child: Container(
-                            height: 50,
-                            width: 50,
+                            width: double.infinity,
                             padding: EdgeInsets.all(13),
                             decoration: BoxDecoration(
                               color: Color(0xFFEEF7FE),
                               borderRadius: BorderRadius.circular(10),
                             ),
-                            child: Image.asset(
-                              "assets/images/building3.png",
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                RichText(
+                                  text: TextSpan(
+                                    children: [
+                                      WidgetSpan(
+                                        child: Image.asset(
+                                          "assets/images/building3.png",
+                                          height: 19,
+                                          width: 19,
+                                        ),
+                                      ),
+                                      TextSpan(
+                                        text: "  Address",
+                                        style: FlutterFlowTheme.of(context)
+                                            .bodyText1
+                                            .override(
+                                              fontFamily: 'Seoge UI',
+                                              fontSize: 16,
+                                              fontWeight: FontWeight.normal,
+                                              useGoogleFonts: false,
+                                            ),
+                                      )
+                                    ],
+                                  ),
+                                ),
+                                SizedBox(
+                                  height: 10,
+                                ),
+                                Text(
+                                  widget.address,
+                                  style: FlutterFlowTheme.of(context)
+                                      .bodyText1
+                                      .override(
+                                        color: Color(0xff979797),
+                                        fontFamily: 'Seoge UI',
+                                        fontSize: 12,
+                                        fontWeight: FontWeight.normal,
+                                        useGoogleFonts: false,
+                                      ),
+                                ),
+                                SizedBox(
+                                  height: 5,
+                                ),
+                                Text(
+                                  widget.postcode,
+                                  style: FlutterFlowTheme.of(context)
+                                      .bodyText1
+                                      .override(
+                                        color: Color(0xff979797),
+                                        fontFamily: 'Seoge UI',
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.normal,
+                                        useGoogleFonts: false,
+                                      ),
+                                )
+                              ],
                             ),
                           ),
                         ),
@@ -329,60 +393,47 @@ class _BuytoletdeatilsWidgetState extends State<BuytoletdeatilsWidget> {
                           style: FlutterFlowTheme.of(context).bodyText1,
                         ),
                         Padding(
-                          padding: EdgeInsetsDirectional.fromSTEB(0, 20, 0, 0),
-                          child: Row(
-                            mainAxisSize: MainAxisSize.max,
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              FFButtonWidget(
-                                onPressed: () {
-                                  print('Button pressed ...');
-                                },
-                                text: 'Repayment',
-                                options: FFButtonOptions(
-                                  width: 158,
-                                  height: 50,
-                                  color:
-                                      FlutterFlowTheme.of(context).primaryColor,
-                                  textStyle: FlutterFlowTheme.of(context)
-                                      .subtitle2
-                                      .override(
-                                        fontFamily: 'Seoge UI',
-                                        color: Colors.white,
-                                        useGoogleFonts: false,
-                                      ),
-                                  borderSide: BorderSide(
-                                    color: Colors.transparent,
-                                    width: 1,
-                                  ),
-                                  borderRadius: BorderRadius.circular(8),
-                                ),
-                              ),
-                              FFButtonWidget(
-                                onPressed: () {
-                                  print('Button pressed ...');
-                                },
-                                text: 'Interest only',
-                                options: FFButtonOptions(
-                                  width: 158,
-                                  height: 50,
-                                  color: Color(0xFFEEF7FE),
-                                  textStyle: FlutterFlowTheme.of(context)
-                                      .subtitle2
-                                      .override(
-                                        fontFamily: 'Seoge UI',
-                                        color: Color(0xFF263238),
-                                        useGoogleFonts: false,
-                                      ),
-                                  borderSide: BorderSide(
-                                    color: Colors.transparent,
-                                    width: 1,
-                                  ),
-                                  borderRadius: BorderRadius.circular(8),
-                                ),
-                              ),
-                            ],
+                          padding: EdgeInsetsDirectional.fromSTEB(0, 20, 0, 10),
+                          child: Text(
+                            'Select your repayment type',
+                            style:
+                                FlutterFlowTheme.of(context).bodyText1.override(
+                                      fontFamily: 'Seoge UI',
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.normal,
+                                      useGoogleFonts: false,
+                                    ),
                           ),
+                        ),
+                        Column(
+                          children: [
+                            ListTile(
+                              visualDensity: VisualDensity(vertical: -4),
+                              title: Text("Repayment"),
+                              leading: Radio(
+                                  activeColor: Color(0xFF4B65B2),
+                                  value: RepaymentType.repayment,
+                                  groupValue: _repaymentType,
+                                  onChanged: (RepaymentType? value) {
+                                    setState(() {
+                                      _repaymentType = value;
+                                    });
+                                  }),
+                            ),
+                            ListTile(
+                              visualDensity: VisualDensity(vertical: -4),
+                              title: Text("Interest Only"),
+                              leading: Radio(
+                                  activeColor: Color(0xFF4B65B2),
+                                  value: RepaymentType.interestOnly,
+                                  groupValue: _repaymentType,
+                                  onChanged: (RepaymentType? value) {
+                                    setState(() {
+                                      _repaymentType = value;
+                                    });
+                                  }),
+                            )
+                          ],
                         ),
                         Padding(
                           padding: EdgeInsetsDirectional.fromSTEB(0, 20, 0, 10),
@@ -446,7 +497,7 @@ class _BuytoletdeatilsWidgetState extends State<BuytoletdeatilsWidget> {
                                   autofocus: true,
                                   obscureText: false,
                                   decoration: InputDecoration(
-                                    hintText: 'Salary',
+                                    hintText: '-',
                                     hintStyle: FlutterFlowTheme.of(context)
                                         .bodyText2
                                         .override(
@@ -493,48 +544,73 @@ class _BuytoletdeatilsWidgetState extends State<BuytoletdeatilsWidget> {
                           children: [
                             FFButtonWidget(
                               onPressed: () {
-                                print('Button pressed ...');
+                                setState(() {
+                                  releaseFromEquity = "yes";
+                                });
                               },
                               text: 'Yes',
                               options: FFButtonOptions(
                                 width: 158,
                                 height: 50,
-                                color:
-                                    FlutterFlowTheme.of(context).primaryColor,
-                                textStyle: FlutterFlowTheme.of(context)
-                                    .subtitle2
-                                    .override(
-                                      fontFamily: 'Seoge UI',
-                                      color: Colors.white,
-                                      useGoogleFonts: false,
-                                    ),
+                                color: releaseFromEquity == "yes"
+                                    ? FlutterFlowTheme.of(context).primaryColor
+                                    : Color(0xFFEEF7FE),
+                                textStyle: releaseFromEquity == "yes"
+                                    ? FlutterFlowTheme.of(context)
+                                        .subtitle2
+                                        .override(
+                                          fontFamily: 'Seoge UI',
+                                          color: Colors.white,
+                                          useGoogleFonts: false,
+                                        )
+                                    : FlutterFlowTheme.of(context)
+                                        .subtitle2
+                                        .override(
+                                          fontFamily: 'Segoe UI',
+                                          color: Color(0xFF263238),
+                                          useGoogleFonts: false,
+                                        ),
                                 borderSide: BorderSide(
                                   color: Colors.transparent,
                                   width: 1,
                                 ),
+                                elevation: 0,
                                 borderRadius: BorderRadius.circular(8),
                               ),
                             ),
                             FFButtonWidget(
                               onPressed: () {
-                                print('Button pressed ...');
+                                setState(() {
+                                  releaseFromEquity = "no";
+                                });
                               },
                               text: 'No',
                               options: FFButtonOptions(
                                 width: 158,
                                 height: 50,
-                                color: Color(0xFFEEF7FE),
-                                textStyle: FlutterFlowTheme.of(context)
-                                    .subtitle2
-                                    .override(
-                                      fontFamily: 'Seoge UI',
-                                      color: Color(0xFF263238),
-                                      useGoogleFonts: false,
-                                    ),
+                                color: releaseFromEquity == "no"
+                                    ? FlutterFlowTheme.of(context).primaryColor
+                                    : Color(0xFFEEF7FE),
+                                textStyle: releaseFromEquity == "no"
+                                    ? FlutterFlowTheme.of(context)
+                                        .subtitle2
+                                        .override(
+                                          fontFamily: 'Seoge UI',
+                                          color: Colors.white,
+                                          useGoogleFonts: false,
+                                        )
+                                    : FlutterFlowTheme.of(context)
+                                        .subtitle2
+                                        .override(
+                                          fontFamily: 'Segoe UI',
+                                          color: Color(0xFF263238),
+                                          useGoogleFonts: false,
+                                        ),
                                 borderSide: BorderSide(
                                   color: Colors.transparent,
                                   width: 1,
                                 ),
+                                elevation: 0,
                                 borderRadius: BorderRadius.circular(8),
                               ),
                             ),
@@ -602,7 +678,7 @@ class _BuytoletdeatilsWidgetState extends State<BuytoletdeatilsWidget> {
                                   autofocus: true,
                                   obscureText: false,
                                   decoration: InputDecoration(
-                                    hintText: 'Salary',
+                                    hintText: '-',
                                     hintStyle: FlutterFlowTheme.of(context)
                                         .bodyText2
                                         .override(
@@ -691,16 +767,55 @@ class _BuytoletdeatilsWidgetState extends State<BuytoletdeatilsWidget> {
                                     ),
                                   ),
                                   InkWell(
-                                    onTap: () {
-                                      // Navigator.push(
-                                      //     context,
-                                      //     MaterialPageRoute(
-                                      //         builder: (_) =>
-                                      //             PropertyDetailsWidget()));
-                                      Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                              builder: (_) => Form2Widget()));
+                                    onTap: () async {
+                                      final value = await showModalBottomSheet(
+                                        isScrollControlled: true,
+                                        backgroundColor:
+                                            FlutterFlowTheme.of(context)
+                                                .primaryBackground,
+                                        barrierColor:
+                                            FlutterFlowTheme.of(context)
+                                                .primaryBackground,
+                                        context: context,
+                                        builder: (context) {
+                                          return Padding(
+                                            padding: MediaQuery.of(context)
+                                                .viewInsets,
+                                            child: Container(
+                                              height: MediaQuery.of(context)
+                                                      .size
+                                                      .height *
+                                                  1,
+                                              child: CurrentPropertyDetails(
+                                                address: widget.address,
+                                                postcode: widget.postcode,
+                                              ),
+                                            ),
+                                          );
+                                        },
+                                      );
+
+                                      setState(() {
+                                        FFAppState().addproperty = value;
+                                      });
+
+                                      if (value) {
+                                        Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (_) => Form2Widget(
+                                                      address: widget.address,
+                                                      postcode: widget.postcode,
+                                                      mortBalance:
+                                                          textController1!.text,
+                                                      remMort:
+                                                          textController2!.text,
+                                                      propValue:
+                                                          textController3!.text,
+                                                      mortLender:
+                                                          textController4!.text,
+                                                    )));
+                                      }
                                     },
                                     child: Container(
                                       width: 42,

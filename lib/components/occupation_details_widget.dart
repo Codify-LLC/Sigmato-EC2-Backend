@@ -12,7 +12,8 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class OccupationDetailsWidget extends StatefulWidget {
-  const OccupationDetailsWidget({Key? key}) : super(key: key);
+  final String? heading;
+  const OccupationDetailsWidget({Key? key, this.heading}) : super(key: key);
 
   @override
   _OccupationDetailsWidgetState createState() =>
@@ -90,6 +91,16 @@ class _OccupationDetailsWidgetState extends State<OccupationDetailsWidget> {
           msg: "Data succesfully saved",
           backgroundColor: Colors.green,
         );
+        if (widget.heading == "Applicant 1") {
+          setState(() {
+            FFAppState().applicant1occupation = true;
+          });
+        }
+        if (widget.heading == "Applicant 2") {
+          setState(() {
+            FFAppState().applicant2occupation = true;
+          });
+        }
         Navigator.pop(context, true);
       } else {
         print(response.body);
@@ -150,7 +161,7 @@ class _OccupationDetailsWidgetState extends State<OccupationDetailsWidget> {
                         ),
                       ),
                       Text(
-                        '$name - Occupation Details',
+                        '${widget.heading} - Occupation Details',
                         style: FlutterFlowTheme.of(context).bodyText1.override(
                               fontFamily: 'Segoe UI',
                               color: Colors.white,
@@ -211,69 +222,6 @@ class _OccupationDetailsWidgetState extends State<OccupationDetailsWidget> {
             ),
           ),
           Padding(
-            padding: EdgeInsetsDirectional.fromSTEB(20, 20, 0, 10),
-            child: Text(
-              'What’s your job title',
-              style: FlutterFlowTheme.of(context).bodyText1.override(
-                    fontFamily: 'Segoe UI',
-                    fontSize: 16,
-                    useGoogleFonts: false,
-                  ),
-            ),
-          ),
-          Padding(
-            padding: EdgeInsetsDirectional.fromSTEB(20, 0, 0, 0),
-            child: Container(
-              width: MediaQuery.of(context).size.width * 0.9,
-              height: 50,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(10),
-                border: Border.all(
-                  color: Color(0xFF979797),
-                  width: 0.25,
-                ),
-              ),
-              child: Padding(
-                padding: EdgeInsetsDirectional.fromSTEB(20, 0, 0, 0),
-                child: TextFormField(
-                  controller: textController1,
-                  autofocus: true,
-                  obscureText: false,
-                  decoration: InputDecoration(
-                    hintText: 'Software Engineer',
-                    hintStyle: FlutterFlowTheme.of(context).bodyText2,
-                    enabledBorder: UnderlineInputBorder(
-                      borderSide: BorderSide(
-                        color: Color(0x00000000),
-                        width: 1,
-                      ),
-                      borderRadius: const BorderRadius.only(
-                        topLeft: Radius.circular(4.0),
-                        topRight: Radius.circular(4.0),
-                      ),
-                    ),
-                    focusedBorder: UnderlineInputBorder(
-                      borderSide: BorderSide(
-                        color: Color(0x00000000),
-                        width: 1,
-                      ),
-                      borderRadius: const BorderRadius.only(
-                        topLeft: Radius.circular(4.0),
-                        topRight: Radius.circular(4.0),
-                      ),
-                    ),
-                  ),
-                  style: FlutterFlowTheme.of(context).bodyText1.override(
-                        fontFamily: 'Segoe UI',
-                        fontSize: 16,
-                        fontWeight: FontWeight.normal,
-                        useGoogleFonts: false,
-                      ),
-                ),
-              ),
-            ),
-          ),
-          Padding(
             padding: EdgeInsetsDirectional.fromSTEB(20, 20, 0, 20),
             child: Text(
               'Are you on parental leave right now?',
@@ -311,11 +259,11 @@ class _OccupationDetailsWidgetState extends State<OccupationDetailsWidget> {
                                 color: Colors.white,
                                 useGoogleFonts: false,
                               )
-                            : FlutterFlowTheme.of(context).subtitle2.override(
-                                  fontFamily: 'Segoe UI',
-                                  color: Color(0xFF263238),
-                                  useGoogleFonts: false,
-                                ),
+                          : FlutterFlowTheme.of(context).subtitle2.override(
+                                fontFamily: 'Segoe UI',
+                                color: Color(0xFF263238),
+                                useGoogleFonts: false,
+                              ),
                       borderSide: BorderSide(
                         color: Colors.transparent,
                         width: 1,
@@ -441,6 +389,69 @@ class _OccupationDetailsWidgetState extends State<OccupationDetailsWidget> {
                   ),
                 ),
               ],
+            ),
+          ),
+          Padding(
+            padding: EdgeInsetsDirectional.fromSTEB(20, 20, 0, 10),
+            child: Text(
+              'What’s your job title',
+              style: FlutterFlowTheme.of(context).bodyText1.override(
+                    fontFamily: 'Segoe UI',
+                    fontSize: 16,
+                    useGoogleFonts: false,
+                  ),
+            ),
+          ),
+          Padding(
+            padding: EdgeInsetsDirectional.fromSTEB(20, 0, 0, 0),
+            child: Container(
+              width: MediaQuery.of(context).size.width * 0.9,
+              height: 50,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(10),
+                border: Border.all(
+                  color: Color(0xFF979797),
+                  width: 0.25,
+                ),
+              ),
+              child: Padding(
+                padding: EdgeInsetsDirectional.fromSTEB(20, 0, 0, 0),
+                child: TextFormField(
+                  controller: textController1,
+                  autofocus: true,
+                  obscureText: false,
+                  decoration: InputDecoration(
+                    hintText: 'Software Engineer',
+                    hintStyle: FlutterFlowTheme.of(context).bodyText2,
+                    enabledBorder: UnderlineInputBorder(
+                      borderSide: BorderSide(
+                        color: Color(0x00000000),
+                        width: 1,
+                      ),
+                      borderRadius: const BorderRadius.only(
+                        topLeft: Radius.circular(4.0),
+                        topRight: Radius.circular(4.0),
+                      ),
+                    ),
+                    focusedBorder: UnderlineInputBorder(
+                      borderSide: BorderSide(
+                        color: Color(0x00000000),
+                        width: 1,
+                      ),
+                      borderRadius: const BorderRadius.only(
+                        topLeft: Radius.circular(4.0),
+                        topRight: Radius.circular(4.0),
+                      ),
+                    ),
+                  ),
+                  style: FlutterFlowTheme.of(context).bodyText1.override(
+                        fontFamily: 'Segoe UI',
+                        fontSize: 16,
+                        fontWeight: FontWeight.normal,
+                        useGoogleFonts: false,
+                      ),
+                ),
+              ),
             ),
           ),
           Container(
@@ -822,6 +833,7 @@ class _OccupationDetailsWidgetState extends State<OccupationDetailsWidget> {
                         textController3?.text != "" &&
                         dropDownValue1 != null &&
                         dropDownValue2 != null) {
+                      ApiFunctions().setOccupation(textController1!.text);
                       await addApplicantOccupationDetails();
                     } else {
                       print("alll details not filled");

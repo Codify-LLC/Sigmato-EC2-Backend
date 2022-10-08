@@ -1,7 +1,8 @@
+import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:freedom/backend/api.dart';
-import 'package:freedom/components/current_address_widget.dart';
 import 'package:freedom/components/successfully_widget.dart';
+import 'package:freedom/flutter_flow/flutter_flow_theme.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:convert';
@@ -14,14 +15,14 @@ import 'package:easy_debounce/easy_debounce.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-class AddAddressWidget extends StatefulWidget {
-  const AddAddressWidget({Key? key}) : super(key: key);
+class EditPreviousAddress extends StatefulWidget {
+  EditPreviousAddress({Key? key}) : super(key: key);
 
   @override
-  _AddAddressWidgetState createState() => _AddAddressWidgetState();
+  State<EditPreviousAddress> createState() => _EditPreviousAddressState();
 }
 
-class _AddAddressWidgetState extends State<AddAddressWidget> {
+class _EditPreviousAddressState extends State<EditPreviousAddress> {
   String? dropDownValue;
   TextEditingController? textController1;
   TextEditingController? textController2;
@@ -32,23 +33,44 @@ class _AddAddressWidgetState extends State<AddAddressWidget> {
   TextEditingController? textController7;
   TextEditingController? houseNameNumber;
   DateTime? date;
-  DateTime nowDate = DateTime.now();
-  bool readonly = true;
-  List address = [];
-  String? selectedItem;
-  bool showDropDown = false;
 
   @override
   void initState() {
     super.initState();
-    textController1 = TextEditingController();
-    textController2 = TextEditingController();
-    textController3 = TextEditingController();
-    textController4 = TextEditingController();
-    textController5 = TextEditingController();
-    textController6 = TextEditingController();
-    textController7 = TextEditingController();
-    houseNameNumber = TextEditingController();
+    // textController1 = TextEditingController();
+    // textController2 = TextEditingController();
+    // textController3 = TextEditingController();
+    // textController4 = TextEditingController();
+    // textController5 = TextEditingController();
+    // textController6 = TextEditingController();
+    // textController7 = TextEditingController();
+    fillDetails();
+  }
+
+  Future fillDetails() async {
+    final data = await ApiFunctions().getApplicantData();
+    print(data);
+    final currentAdd = jsonDecode(data["previousaddress"]);
+
+    print(currentAdd["postalCode"]);
+    print(currentAdd["buildingName"]);
+
+    // print(data["currentaddress"]);
+
+    setState(() {
+      textController1 = TextEditingController(text: currentAdd["postalCode"]);
+      textController2 = TextEditingController(text: currentAdd["flatNumber"]);
+
+      textController3 = TextEditingController(text: currentAdd["buildingName"]);
+      textController4 = TextEditingController(text: currentAdd["street"]);
+      textController5 = TextEditingController(text: currentAdd["city"]);
+      textController6 = TextEditingController(text: currentAdd["postalCode"]);
+      textController7 =
+          TextEditingController(text: currentAdd["startLivingDate"]);
+
+      dropDownValue = currentAdd["typeOfOccupant"];
+      // dropDownValue = currentAdd["typeOfOccupant"];
+    });
   }
 
   Future addApplicantAddress() async {
@@ -57,8 +79,8 @@ class _AddAddressWidgetState extends State<AddAddressWidget> {
 
     try {
       Map<String, String> data = {
-        "typeOfAddress": FFAppState().typeOfAddress,
-        "postalCode": textController6!.text,
+        // "typeOfAddress": FFAppState().typeOfAddress,
+        "postalCode": textController1!.text,
         "flatNumber": textController2!.text,
         "buildingName": textController3!.text,
         "street": textController4!.text,
@@ -79,7 +101,7 @@ class _AddAddressWidgetState extends State<AddAddressWidget> {
         //   'Content-Type': 'application/json; charset=UTF-8',
         // },
         body: {
-          "currentaddress": jsonData,
+          "previousaddress": jsonData,
         },
       );
 
@@ -97,22 +119,13 @@ class _AddAddressWidgetState extends State<AddAddressWidget> {
       print(response);
       print(response.body);
       if (response.statusCode == 200) {
-        setState(() {
-          FFAppState().currentAddress = true;
-        });
         Fluttertoast.showToast(
           msg: "Data succesfully saved",
           backgroundColor: Colors.green,
         );
         Navigator.pop(context, true);
-        final value = (nowDate.difference(date!).inDays / 365).round();
-        if (value < 3) {
-          await showDialog(
-              context: context, builder: (_) => CurrentAddressWidget());
-        } else {
-          await showDialog(
-              context: context, builder: (_) => SuccessfullyWidget());
-        }
+        await showDialog(
+            context: context, builder: (_) => SuccessfullyWidget());
       } else {
         print(response.body);
         Fluttertoast.showToast(
@@ -171,7 +184,7 @@ class _AddAddressWidgetState extends State<AddAddressWidget> {
                         ),
                       ),
                       Text(
-                        'Add Address',
+                        'Update Previous Address',
                         style: FlutterFlowTheme.of(context).bodyText1.override(
                               fontFamily: 'Segoe UI',
                               color: Colors.white,
@@ -206,78 +219,7 @@ class _AddAddressWidgetState extends State<AddAddressWidget> {
                         ),
                   ),
                 ),
-                if (FFAppState().typeOfAddress == 'Current')
-                  Padding(
-                    padding: EdgeInsetsDirectional.fromSTEB(20, 0, 20, 0),
-                    child: Row(
-                      mainAxisSize: MainAxisSize.max,
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Expanded(
-                          child: Padding(
-                            padding:
-                                EdgeInsetsDirectional.fromSTEB(0, 0, 10, 0),
-                            child: Container(
-                              width: 130,
-                              height: 50,
-                              decoration: BoxDecoration(
-                                color: Color(0xFF4B65B2),
-                                borderRadius: BorderRadius.circular(10),
-                              ),
-                              child: Align(
-                                alignment: AlignmentDirectional(0, 0),
-                                child: Text(
-                                  'Current',
-                                  style: FlutterFlowTheme.of(context)
-                                      .bodyText1
-                                      .override(
-                                        fontFamily: 'Segoe UI',
-                                        color: Colors.white,
-                                        fontSize: 16,
-                                        useGoogleFonts: false,
-                                      ),
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
-                        Expanded(
-                          child: Padding(
-                            padding:
-                                EdgeInsetsDirectional.fromSTEB(10, 0, 0, 0),
-                            child: InkWell(
-                              onTap: () async {
-                                // setState(() =>
-                                //     FFAppState().typeOfAddress = 'Previous');
-                              },
-                              child: Container(
-                                width: 130,
-                                height: 50,
-                                decoration: BoxDecoration(
-                                  color: Color(0xFFEEF7FE),
-                                  borderRadius: BorderRadius.circular(10),
-                                ),
-                                child: Align(
-                                  alignment: AlignmentDirectional(0, 0),
-                                  child: Text(
-                                    'Previous',
-                                    style: FlutterFlowTheme.of(context)
-                                        .bodyText1
-                                        .override(
-                                          fontFamily: 'Segoe UI',
-                                          fontSize: 16,
-                                          useGoogleFonts: false,
-                                        ),
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                // if (FFAppState().typeOfAddress == 'Previous')
+                // if (FFAppState().typeOfAddress == 'Current')
                 //   Padding(
                 //     padding: EdgeInsetsDirectional.fromSTEB(20, 0, 20, 0),
                 //     child: Row(
@@ -288,10 +230,38 @@ class _AddAddressWidgetState extends State<AddAddressWidget> {
                 //           child: Padding(
                 //             padding:
                 //                 EdgeInsetsDirectional.fromSTEB(0, 0, 10, 0),
+                //             child: Container(
+                //               width: 130,
+                //               height: 50,
+                //               decoration: BoxDecoration(
+                //                 color: Color(0xFF4B65B2),
+                //                 borderRadius: BorderRadius.circular(10),
+                //               ),
+                //               child: Align(
+                //                 alignment: AlignmentDirectional(0, 0),
+                //                 child: Text(
+                //                   'Current',
+                //                   style: FlutterFlowTheme.of(context)
+                //                       .bodyText1
+                //                       .override(
+                //                         fontFamily: 'Segoe UI',
+                //                         color: Colors.white,
+                //                         fontSize: 16,
+                //                         useGoogleFonts: false,
+                //                       ),
+                //                 ),
+                //               ),
+                //             ),
+                //           ),
+                //         ),
+                //         Expanded(
+                //           child: Padding(
+                //             padding:
+                //                 EdgeInsetsDirectional.fromSTEB(10, 0, 0, 0),
                 //             child: InkWell(
                 //               onTap: () async {
                 //                 setState(() =>
-                //                     FFAppState().typeOfAddress = 'Current');
+                //                     FFAppState().typeOfAddress = 'Previous');
                 //               },
                 //               child: Container(
                 //                 width: 130,
@@ -303,13 +273,11 @@ class _AddAddressWidgetState extends State<AddAddressWidget> {
                 //                 child: Align(
                 //                   alignment: AlignmentDirectional(0, 0),
                 //                   child: Text(
-                //                     'Current',
+                //                     'Previous',
                 //                     style: FlutterFlowTheme.of(context)
                 //                         .bodyText1
                 //                         .override(
                 //                           fontFamily: 'Segoe UI',
-                //                           color: FlutterFlowTheme.of(context)
-                //                               .primaryText,
                 //                           fontSize: 16,
                 //                           useGoogleFonts: false,
                 //                         ),
@@ -319,38 +287,80 @@ class _AddAddressWidgetState extends State<AddAddressWidget> {
                 //             ),
                 //           ),
                 //         ),
-                //         Expanded(
-                //           child: Padding(
-                //             padding:
-                //                 EdgeInsetsDirectional.fromSTEB(10, 0, 0, 0),
-                //             child: Container(
-                //               width: 130,
-                //               height: 50,
-                //               decoration: BoxDecoration(
-                //                 color: Color(0xFF4B65B2),
-                //                 borderRadius: BorderRadius.circular(10),
-                //               ),
-                //               child: Align(
-                //                 alignment: AlignmentDirectional(0, 0),
-                //                 child: Text(
-                //                   'Previous',
-                //                   style: FlutterFlowTheme.of(context)
-                //                       .bodyText1
-                //                       .override(
-                //                         fontFamily: 'Segoe UI',
-                //                         color: FlutterFlowTheme.of(context)
-                //                             .primaryBackground,
-                //                         fontSize: 16,
-                //                         useGoogleFonts: false,
-                //                       ),
-                //                 ),
-                //               ),
-                //             ),
-                //           ),
-                //         ),
                 //       ],
                 //     ),
                 //   ),
+                if (FFAppState().typeOfAddress == 'Previous')
+                  Padding(
+                    padding: EdgeInsetsDirectional.fromSTEB(20, 0, 20, 0),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.max,
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Expanded(
+                          child: Padding(
+                            padding:
+                                EdgeInsetsDirectional.fromSTEB(0, 0, 10, 0),
+                            child: InkWell(
+                              onTap: () async {},
+                              child: Container(
+                                width: 130,
+                                height: 50,
+                                decoration: BoxDecoration(
+                                  color: Color(0xFFEEF7FE),
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                                child: Align(
+                                  alignment: AlignmentDirectional(0, 0),
+                                  child: Text(
+                                    'Current',
+                                    style: FlutterFlowTheme.of(context)
+                                        .bodyText1
+                                        .override(
+                                          fontFamily: 'Segoe UI',
+                                          color: FlutterFlowTheme.of(context)
+                                              .primaryText,
+                                          fontSize: 16,
+                                          useGoogleFonts: false,
+                                        ),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                        Expanded(
+                          child: Padding(
+                            padding:
+                                EdgeInsetsDirectional.fromSTEB(10, 0, 0, 0),
+                            child: Container(
+                              width: 130,
+                              height: 50,
+                              decoration: BoxDecoration(
+                                color: Color(0xFF4B65B2),
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                              child: Align(
+                                alignment: AlignmentDirectional(0, 0),
+                                child: Text(
+                                  'Previous',
+                                  style: FlutterFlowTheme.of(context)
+                                      .bodyText1
+                                      .override(
+                                        fontFamily: 'Segoe UI',
+                                        color: FlutterFlowTheme.of(context)
+                                            .primaryBackground,
+                                        fontSize: 16,
+                                        useGoogleFonts: false,
+                                      ),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
                 Padding(
                   padding: EdgeInsetsDirectional.fromSTEB(20, 20, 0, 10),
                   child: Text(
@@ -413,7 +423,72 @@ class _AddAddressWidgetState extends State<AddAddressWidget> {
                               color: FlutterFlowTheme.of(context).primaryColor,
                               size: 20,
                             ),
-                            suffixIcon: textController1!.text.isNotEmpty
+                            // suffixIcon: textController1?.text.isNotEmpty
+                            //     ? InkWell(
+                            //         onTap: () async {
+                            //           textController1?.clear();
+                            //           setState(() {});
+                            //         },
+                            //         child: Icon(
+                            //           Icons.clear,
+                            //           color: Color(0xFF757575),
+                            //           size: 22,
+                            //         ),
+                            //       )
+                            //     : null,
+                          ),
+                          style:
+                              FlutterFlowTheme.of(context).bodyText1.override(
+                                    fontFamily: 'Segoe UI',
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.normal,
+                                    useGoogleFonts: false,
+                                  ),
+                        ),
+                      ),
+                      Padding(
+                        padding: EdgeInsetsDirectional.fromSTEB(20, 10, 20, 0),
+                        child: TextFormField(
+                          controller: houseNameNumber,
+                          onChanged: (_) => EasyDebounce.debounce(
+                            'houseNameNumber',
+                            Duration(milliseconds: 2000),
+                            () => setState(() {}),
+                          ),
+                          autofocus: true,
+                          obscureText: false,
+                          decoration: InputDecoration(
+                            hintText: 'Enter House name/number',
+                            hintStyle:
+                                FlutterFlowTheme.of(context).bodyText2.override(
+                                      fontFamily: 'Segoe UI',
+                                      color: Color(0xFF979797),
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.normal,
+                                      useGoogleFonts: false,
+                                    ),
+                            enabledBorder: UnderlineInputBorder(
+                              borderSide: BorderSide(
+                                color: Color(0x00000000),
+                                width: 1,
+                              ),
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            focusedBorder: UnderlineInputBorder(
+                              borderSide: BorderSide(
+                                color: Color(0x00000000),
+                                width: 1,
+                              ),
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            filled: true,
+                            fillColor: Colors.white,
+                            prefixIcon: Icon(
+                              Icons.search,
+                              color: FlutterFlowTheme.of(context).primaryColor,
+                              size: 20,
+                            ),
+                            suffixIcon: houseNameNumber!.text.isNotEmpty
                                 ? InkWell(
                                     onTap: () async {
                                       textController1?.clear();
@@ -436,82 +511,6 @@ class _AddAddressWidgetState extends State<AddAddressWidget> {
                                   ),
                         ),
                       ),
-                      if (showDropDown)
-                        Padding(
-                          padding:
-                              EdgeInsetsDirectional.fromSTEB(20, 10, 20, 0),
-                          child: Container(
-                            height: 50,
-                            color: Colors.white,
-                            padding:
-                                EdgeInsetsDirectional.fromSTEB(10, 0, 10, 0),
-                            child: DropdownButtonHideUnderline(
-                              child: DropdownButton<String>(
-                                value: selectedItem,
-                                hint: Text(
-                                    "Select your address from the dropdown"),
-                                menuMaxHeight: 300,
-                                style: TextStyle(
-                                  color: Colors.black,
-                                  // overflow: TextOverflow.ellipsis,
-                                ),
-                                // isDense: true,
-                                isExpanded: true,
-                                items: address
-                                    .map(
-                                      (item) => DropdownMenuItem<String>(
-                                        child: Text(
-                                          item,
-                                          style: TextStyle(
-                                            color: Colors.black,
-                                          ),
-                                        ),
-                                        value: item,
-                                      ),
-                                    )
-                                    .toList(),
-                                onChanged: (item) {
-                                  print(item);
-                                  final data = item!.split(",");
-                                  print(data);
-                                  final name = data[0].split(" ");
-                                  String flatNo = "";
-                                  String flatName = "";
-                                  List flatN = [];
-                                  List flatNumber = [];
-                                  name.forEach(
-                                    (element) {
-                                      if (element.contains(RegExp(r'[0-9]')) ||
-                                          element.contains(RegExp(
-                                              r'[-!@#$%^&*(),.?":{}|<>]'))) {
-                                        print(element);
-                                        flatNumber.add(element);
-                                        print(flatNumber);
-                                        setState(() {
-                                          flatNo = flatNumber.join(" ");
-                                        });
-                                      } else {
-                                        flatN.add(element);
-                                        setState(() {
-                                          flatName = flatN.join(" ");
-                                        });
-                                      }
-                                    },
-                                  );
-                                  print(name);
-                                  textController2!.text = flatNo;
-                                  textController3!.text = flatName;
-                                  textController4!.text = data[1];
-                                  textController5!.text = data[5];
-                                  textController6!.text = textController1!.text;
-                                  setState(() {
-                                    selectedItem = item;
-                                  });
-                                },
-                              ),
-                            ),
-                          ),
-                        ),
                       Padding(
                         padding: EdgeInsetsDirectional.fromSTEB(20, 20, 20, 20),
                         child: Row(
@@ -520,7 +519,8 @@ class _AddAddressWidgetState extends State<AddAddressWidget> {
                           children: [
                             InkWell(
                               onTap: () async {
-                                if (textController1?.text == "") {
+                                if (textController1?.text == "" &&
+                                    houseNameNumber?.text == "") {
                                   Fluttertoast.showToast(
                                       msg:
                                           "Fill the above fields to get the address",
@@ -531,30 +531,23 @@ class _AddAddressWidgetState extends State<AddAddressWidget> {
                                     textController1!.text,
                                   );
                                   print(data);
-                                  print(data["addresses"]);
-                                  // if (address.isNotEmpty) address.clear();
                                   setState(() {
-                                    selectedItem = null;
-                                    showDropDown = true;
-                                    address = data["addresses"];
+                                    textController2?.text = data["addresses"][0]
+                                        ["sub_building_name"];
+                                    textController3?.text =
+                                        data["addresses"][0]["building_name"];
+                                    textController4?.text =
+                                        data["addresses"][0]["thoroughfare"];
+                                    textController5?.text =
+                                        data["addresses"][0]["town_or_city"];
+                                    textController6?.text = data["postcode"];
                                   });
-                                  // setState(() {
-                                  //   textController2?.text = data["addresses"][0]
-                                  //       ["sub_building_name"];
-                                  //   textController3?.text =
-                                  //       data["addresses"][0]["building_name"];
-                                  //   textController4?.text =
-                                  //       data["addresses"][0]["thoroughfare"];
-                                  //   textController5?.text =
-                                  //       data["addresses"][0]["town_or_city"];
-                                  //   textController6?.text = data["postcode"];
-                                  // });
-                                  // print(data["addresses"][0]
-                                  //     ["sub_building_name"]);
-                                  // print(data["addresses"][0]["building_name"]);
-                                  // print(data["addresses"][0]["thoroughfare"]);
-                                  // print(data["addresses"][0]["town_or_city"]);
-                                  // print(data["postcode"]);
+                                  print(data["addresses"][0]
+                                      ["sub_building_name"]);
+                                  print(data["addresses"][0]["building_name"]);
+                                  print(data["addresses"][0]["thoroughfare"]);
+                                  print(data["addresses"][0]["town_or_city"]);
+                                  print(data["postcode"]);
                                 }
                               },
                               child: Container(
@@ -588,40 +581,33 @@ class _AddAddressWidgetState extends State<AddAddressWidget> {
                                 ),
                               ),
                             ),
-                            InkWell(
-                              onTap: () {
-                                setState(() {
-                                  readonly = false;
-                                });
-                              },
-                              child: Container(
-                                width: 157,
-                                height: 50,
-                                decoration: BoxDecoration(
-                                  gradient: LinearGradient(
-                                    colors: [
-                                      Color(0xFF13BBE6),
-                                      FlutterFlowTheme.of(context).primaryColor
-                                    ],
-                                    stops: [0, 1],
-                                    begin: AlignmentDirectional(1, 0),
-                                    end: AlignmentDirectional(-1, 0),
-                                  ),
-                                  borderRadius: BorderRadius.circular(35),
+                            Container(
+                              width: 157,
+                              height: 50,
+                              decoration: BoxDecoration(
+                                gradient: LinearGradient(
+                                  colors: [
+                                    Color(0xFF13BBE6),
+                                    FlutterFlowTheme.of(context).primaryColor
+                                  ],
+                                  stops: [0, 1],
+                                  begin: AlignmentDirectional(1, 0),
+                                  end: AlignmentDirectional(-1, 0),
                                 ),
-                                child: Align(
-                                  alignment: AlignmentDirectional(0, 0),
-                                  child: Text(
-                                    'Enter Manually',
-                                    style: FlutterFlowTheme.of(context)
-                                        .bodyText1
-                                        .override(
-                                          fontFamily: 'Segoe UI',
-                                          color: Colors.white,
-                                          fontSize: 16,
-                                          useGoogleFonts: false,
-                                        ),
-                                  ),
+                                borderRadius: BorderRadius.circular(35),
+                              ),
+                              child: Align(
+                                alignment: AlignmentDirectional(0, 0),
+                                child: Text(
+                                  'Enter Manually',
+                                  style: FlutterFlowTheme.of(context)
+                                      .bodyText1
+                                      .override(
+                                        fontFamily: 'Segoe UI',
+                                        color: Colors.white,
+                                        fontSize: 16,
+                                        useGoogleFonts: false,
+                                      ),
                                 ),
                               ),
                             ),
@@ -648,7 +634,6 @@ class _AddAddressWidgetState extends State<AddAddressWidget> {
                     controller: textController2,
                     autofocus: true,
                     obscureText: false,
-                    readOnly: readonly,
                     decoration: InputDecoration(
                       hintText: '-',
                       hintStyle:
@@ -701,7 +686,6 @@ class _AddAddressWidgetState extends State<AddAddressWidget> {
                     controller: textController3,
                     autofocus: true,
                     obscureText: false,
-                    readOnly: readonly,
                     decoration: InputDecoration(
                       hintText: '-',
                       hintStyle:
@@ -754,7 +738,6 @@ class _AddAddressWidgetState extends State<AddAddressWidget> {
                     controller: textController4,
                     autofocus: true,
                     obscureText: false,
-                    readOnly: readonly,
                     decoration: InputDecoration(
                       hintText: '-',
                       hintStyle:
@@ -807,7 +790,6 @@ class _AddAddressWidgetState extends State<AddAddressWidget> {
                     controller: textController5,
                     autofocus: true,
                     obscureText: false,
-                    readOnly: readonly,
                     decoration: InputDecoration(
                       hintText: '-',
                       hintStyle:
@@ -860,7 +842,6 @@ class _AddAddressWidgetState extends State<AddAddressWidget> {
                     controller: textController6,
                     autofocus: true,
                     obscureText: false,
-                    readOnly: readonly,
                     decoration: InputDecoration(
                       hintText: '-',
                       hintStyle:
@@ -970,12 +951,6 @@ class _AddAddressWidgetState extends State<AddAddressWidget> {
                                   textController7?.text =
                                       '${date!.day.toString()}/${date!.month.toString()}/${date!.year.toString()}';
                                 });
-
-                                print(date);
-                                print(date?.year);
-                                print(nowDate);
-                                print((nowDate.difference(date!).inDays / 365)
-                                    .round());
                               },
                               decoration: InputDecoration(
                                 hintText: 'DD/MM/YYYY',
@@ -1046,7 +1021,7 @@ class _AddAddressWidgetState extends State<AddAddressWidget> {
                           fontWeight: FontWeight.w600,
                           useGoogleFonts: false,
                         ),
-                    hintText: 'Select',
+                    hintText: dropDownValue,
                     icon: Icon(
                       Icons.keyboard_arrow_down,
                       color: Color(0xFF4B65B2),

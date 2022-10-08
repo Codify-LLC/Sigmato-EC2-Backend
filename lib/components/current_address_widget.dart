@@ -1,3 +1,5 @@
+import 'package:freedom/components/add_previous_address.dart';
+
 import '../flutter_flow/flutter_flow_icon_button.dart';
 import '../flutter_flow/flutter_flow_theme.dart';
 import '../flutter_flow/flutter_flow_util.dart';
@@ -85,8 +87,25 @@ class _CurrentAddressWidgetState extends State<CurrentAddressWidget> {
             Padding(
               padding: EdgeInsetsDirectional.fromSTEB(0, 20, 10, 0),
               child: InkWell(
-                onTap: () {
+                onTap: () async {
                   Navigator.pop(context);
+                  await showModalBottomSheet(
+                    isScrollControlled: true,
+                    backgroundColor:
+                        FlutterFlowTheme.of(context).primaryBackground,
+                    barrierColor:
+                        FlutterFlowTheme.of(context).primaryBackground,
+                    context: context,
+                    builder: (context) {
+                      return Padding(
+                        padding: MediaQuery.of(context).viewInsets,
+                        child: Container(
+                          height: MediaQuery.of(context).size.height * 1,
+                          child: AddPreviousAddress(),
+                        ),
+                      );
+                    },
+                  );
                 },
                 child: Container(
                   width: MediaQuery.of(context).size.width * 0.8,

@@ -1,3 +1,10 @@
+import 'dart:io';
+
+import 'package:amplify_flutter/amplify_flutter.dart';
+import 'package:dotted_line/dotted_line.dart';
+import 'package:file_picker/file_picker.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:freedom/backend/document.dart';
 import 'package:image_picker/image_picker.dart';
 
 import '../flutter_flow/flutter_flow_theme.dart';
@@ -59,10 +66,18 @@ class _BritishPassportWidgetState extends State<BritishPassportWidget> {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     InkWell(
-                      onTap: () {
-                        // final ImagePicker picker = ImagePicker();
+                      onTap: () async {
+                        final ImagePicker picker = ImagePicker();
                         final image =
-                            ImagePicker().pickImage(source: ImageSource.camera);
+                            picker.pickImage(source: ImageSource.camera);
+                        // FilePickerResult? file =
+                        //     await FilePicker.platform.pickFiles();
+
+                        // if (file != null) {
+                        //   print(file.names);
+                        // } else {
+                        //   Fluttertoast.showToast(msg: "No file selected");
+                        // }
                       },
                       child: Column(
                         mainAxisSize: MainAxisSize.max,
@@ -88,17 +103,54 @@ class _BritishPassportWidgetState extends State<BritishPassportWidget> {
                         ],
                       ),
                     ),
-                    Container(
-                      width: 1,
-                      height: 77,
-                      decoration: BoxDecoration(
-                        color: Color(0x80000000),
+                    Padding(
+                      padding: EdgeInsets.symmetric(vertical: 8),
+                      child: DottedLine(
+                        direction: Axis.vertical,
                       ),
                     ),
                     InkWell(
-                      onTap: () {
-                        final image = ImagePicker()
-                            .pickImage(source: ImageSource.gallery);
+                      onTap: () async {
+                        FilePickerResult? result =
+                            await FilePicker.platform.pickFiles();
+
+                        if (result != null) {
+                          final name = result.names[0];
+                          print(result.names[0]);
+                          print(result);
+
+                          setState(() {
+                            FFAppState().identityDoc.add(
+                                  Document(name: name!, link: "no link"),
+                                );
+                          });
+
+                          print(FFAppState().identityDoc);
+
+                          Navigator.pop(context, true);
+
+                          // Upload file with its filename as the key
+                          final platformFile = result.files.single;
+                          final path = platformFile.path!;
+                          final key = platformFile.name;
+                          final file = File(path);
+                          // try {
+                          //   final UploadFileResult result =
+                          //       await Amplify.Storage.uploadFile(
+                          //     local: file,
+                          //     key: key,
+                          //     onProgress: (progress) {
+                          //       print(
+                          //           'Fraction completed: ${progress.getFractionCompleted()}');
+                          //     },
+                          //   );
+                          //   print('Successfully uploaded file: ${result.key}');
+                          // } on StorageException catch (e) {
+                          //   print('Error uploading file: $e');
+                          // }
+                        } else {
+                          Fluttertoast.showToast(msg: "No file selected");
+                        }
                       },
                       child: Column(
                         mainAxisSize: MainAxisSize.max,

@@ -16,9 +16,11 @@ class ApplicantDetailsWidget extends StatefulWidget {
   const ApplicantDetailsWidget({
     Key? key,
     this.heading,
+    this.type,
   }) : super(key: key);
 
   final String? heading;
+  final String? type;
 
   @override
   _ApplicantDetailsWidgetState createState() => _ApplicantDetailsWidgetState();
@@ -76,6 +78,8 @@ class _ApplicantDetailsWidgetState extends State<ApplicantDetailsWidget> {
       print(body["_id"]);
 
       await prefs.setString("applicant_id", body["_id"]);
+      await prefs.setString("applicant_name",
+          "${textController1?.text} ${textController3?.text}");
 
       print(response);
       if (response.statusCode == 200) {

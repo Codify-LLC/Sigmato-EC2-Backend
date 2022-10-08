@@ -31,6 +31,7 @@ class _EditAddressDetailsState extends State<EditAddressDetails> {
   TextEditingController? textController5;
   TextEditingController? textController6;
   TextEditingController? textController7;
+  TextEditingController? houseNameNumber;
   DateTime? date;
 
   @override
@@ -66,6 +67,8 @@ class _EditAddressDetailsState extends State<EditAddressDetails> {
       textController6 = TextEditingController(text: currentAdd["postalCode"]);
       textController7 =
           TextEditingController(text: currentAdd["startLivingDate"]);
+
+      dropDownValue = currentAdd["typeOfOccupant"];
       // dropDownValue = currentAdd["typeOfOccupant"];
     });
   }
@@ -76,7 +79,7 @@ class _EditAddressDetailsState extends State<EditAddressDetails> {
 
     try {
       Map<String, String> data = {
-        "typeOfAddress": FFAppState().typeOfAddress,
+        // "typeOfAddress": FFAppState().typeOfAddress,
         "postalCode": textController1!.text,
         "flatNumber": textController2!.text,
         "buildingName": textController3!.text,
@@ -256,10 +259,7 @@ class _EditAddressDetailsState extends State<EditAddressDetails> {
                             padding:
                                 EdgeInsetsDirectional.fromSTEB(10, 0, 0, 0),
                             child: InkWell(
-                              onTap: () async {
-                                setState(() =>
-                                    FFAppState().typeOfAddress = 'Previous');
-                              },
+                              onTap: () async {},
                               child: Container(
                                 width: 130,
                                 height: 50,
@@ -287,80 +287,80 @@ class _EditAddressDetailsState extends State<EditAddressDetails> {
                       ],
                     ),
                   ),
-                if (FFAppState().typeOfAddress == 'Previous')
-                  Padding(
-                    padding: EdgeInsetsDirectional.fromSTEB(20, 0, 20, 0),
-                    child: Row(
-                      mainAxisSize: MainAxisSize.max,
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Expanded(
-                          child: Padding(
-                            padding:
-                                EdgeInsetsDirectional.fromSTEB(0, 0, 10, 0),
-                            child: InkWell(
-                              onTap: () async {
-                                setState(() =>
-                                    FFAppState().typeOfAddress = 'Current');
-                              },
-                              child: Container(
-                                width: 130,
-                                height: 50,
-                                decoration: BoxDecoration(
-                                  color: Color(0xFFEEF7FE),
-                                  borderRadius: BorderRadius.circular(10),
-                                ),
-                                child: Align(
-                                  alignment: AlignmentDirectional(0, 0),
-                                  child: Text(
-                                    'Current',
-                                    style: FlutterFlowTheme.of(context)
-                                        .bodyText1
-                                        .override(
-                                          fontFamily: 'Segoe UI',
-                                          color: FlutterFlowTheme.of(context)
-                                              .primaryText,
-                                          fontSize: 16,
-                                          useGoogleFonts: false,
-                                        ),
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
-                        Expanded(
-                          child: Padding(
-                            padding:
-                                EdgeInsetsDirectional.fromSTEB(10, 0, 0, 0),
-                            child: Container(
-                              width: 130,
-                              height: 50,
-                              decoration: BoxDecoration(
-                                color: Color(0xFF4B65B2),
-                                borderRadius: BorderRadius.circular(10),
-                              ),
-                              child: Align(
-                                alignment: AlignmentDirectional(0, 0),
-                                child: Text(
-                                  'Previous',
-                                  style: FlutterFlowTheme.of(context)
-                                      .bodyText1
-                                      .override(
-                                        fontFamily: 'Segoe UI',
-                                        color: FlutterFlowTheme.of(context)
-                                            .primaryBackground,
-                                        fontSize: 16,
-                                        useGoogleFonts: false,
-                                      ),
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
+                // if (FFAppState().typeOfAddress == 'Previous')
+                //   Padding(
+                //     padding: EdgeInsetsDirectional.fromSTEB(20, 0, 20, 0),
+                //     child: Row(
+                //       mainAxisSize: MainAxisSize.max,
+                //       mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                //       children: [
+                //         Expanded(
+                //           child: Padding(
+                //             padding:
+                //                 EdgeInsetsDirectional.fromSTEB(0, 0, 10, 0),
+                //             child: InkWell(
+                //               onTap: () async {
+                //                 setState(() =>
+                //                     FFAppState().typeOfAddress = 'Current');
+                //               },
+                //               child: Container(
+                //                 width: 130,
+                //                 height: 50,
+                //                 decoration: BoxDecoration(
+                //                   color: Color(0xFFEEF7FE),
+                //                   borderRadius: BorderRadius.circular(10),
+                //                 ),
+                //                 child: Align(
+                //                   alignment: AlignmentDirectional(0, 0),
+                //                   child: Text(
+                //                     'Current',
+                //                     style: FlutterFlowTheme.of(context)
+                //                         .bodyText1
+                //                         .override(
+                //                           fontFamily: 'Segoe UI',
+                //                           color: FlutterFlowTheme.of(context)
+                //                               .primaryText,
+                //                           fontSize: 16,
+                //                           useGoogleFonts: false,
+                //                         ),
+                //                   ),
+                //                 ),
+                //               ),
+                //             ),
+                //           ),
+                //         ),
+                //         Expanded(
+                //           child: Padding(
+                //             padding:
+                //                 EdgeInsetsDirectional.fromSTEB(10, 0, 0, 0),
+                //             child: Container(
+                //               width: 130,
+                //               height: 50,
+                //               decoration: BoxDecoration(
+                //                 color: Color(0xFF4B65B2),
+                //                 borderRadius: BorderRadius.circular(10),
+                //               ),
+                //               child: Align(
+                //                 alignment: AlignmentDirectional(0, 0),
+                //                 child: Text(
+                //                   'Previous',
+                //                   style: FlutterFlowTheme.of(context)
+                //                       .bodyText1
+                //                       .override(
+                //                         fontFamily: 'Segoe UI',
+                //                         color: FlutterFlowTheme.of(context)
+                //                             .primaryBackground,
+                //                         fontSize: 16,
+                //                         useGoogleFonts: false,
+                //                       ),
+                //                 ),
+                //               ),
+                //             ),
+                //           ),
+                //         ),
+                //       ],
+                //     ),
+                //   ),
                 Padding(
                   padding: EdgeInsetsDirectional.fromSTEB(20, 20, 0, 10),
                   child: Text(
@@ -436,6 +436,71 @@ class _EditAddressDetailsState extends State<EditAddressDetails> {
                             //         ),
                             //       )
                             //     : null,
+                          ),
+                          style:
+                              FlutterFlowTheme.of(context).bodyText1.override(
+                                    fontFamily: 'Segoe UI',
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.normal,
+                                    useGoogleFonts: false,
+                                  ),
+                        ),
+                      ),
+                      Padding(
+                        padding: EdgeInsetsDirectional.fromSTEB(20, 10, 20, 0),
+                        child: TextFormField(
+                          controller: houseNameNumber,
+                          onChanged: (_) => EasyDebounce.debounce(
+                            'houseNameNumber',
+                            Duration(milliseconds: 2000),
+                            () => setState(() {}),
+                          ),
+                          autofocus: true,
+                          obscureText: false,
+                          decoration: InputDecoration(
+                            hintText: 'Enter House name/number',
+                            hintStyle:
+                                FlutterFlowTheme.of(context).bodyText2.override(
+                                      fontFamily: 'Segoe UI',
+                                      color: Color(0xFF979797),
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.normal,
+                                      useGoogleFonts: false,
+                                    ),
+                            enabledBorder: UnderlineInputBorder(
+                              borderSide: BorderSide(
+                                color: Color(0x00000000),
+                                width: 1,
+                              ),
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            focusedBorder: UnderlineInputBorder(
+                              borderSide: BorderSide(
+                                color: Color(0x00000000),
+                                width: 1,
+                              ),
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            filled: true,
+                            fillColor: Colors.white,
+                            prefixIcon: Icon(
+                              Icons.search,
+                              color: FlutterFlowTheme.of(context).primaryColor,
+                              size: 20,
+                            ),
+                            suffixIcon: houseNameNumber!.text.isNotEmpty
+                                ? InkWell(
+                                    onTap: () async {
+                                      textController1?.clear();
+                                      setState(() {});
+                                    },
+                                    child: Icon(
+                                      Icons.clear,
+                                      color: Color(0xFF757575),
+                                      size: 22,
+                                    ),
+                                  )
+                                : null,
                           ),
                           style:
                               FlutterFlowTheme.of(context).bodyText1.override(
@@ -925,7 +990,7 @@ class _EditAddressDetailsState extends State<EditAddressDetails> {
                           fontWeight: FontWeight.w600,
                           useGoogleFonts: false,
                         ),
-                    hintText: 'Select',
+                    hintText: dropDownValue,
                     icon: Icon(
                       Icons.keyboard_arrow_down,
                       color: Color(0xFF4B65B2),

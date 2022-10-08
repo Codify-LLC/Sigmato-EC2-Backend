@@ -1,4 +1,4 @@
-import 'package:freedom/applicant1documents/applicant1documents_widget.dart';
+import 'package:freedom/applicant1documents/add_documents.dart';
 import 'package:freedom/index.dart';
 
 import '../dependent_details/dependent_details_widget.dart';
@@ -186,8 +186,7 @@ class _DocumentuploadWidgetState extends State<DocumentuploadWidget> {
                                 Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                        builder: (_) =>
-                                            Applicant1documentsWidget()));
+                                        builder: (_) => AddDocuments()));
                               },
                               child: Container(
                                 width: 30,

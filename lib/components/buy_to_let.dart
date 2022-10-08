@@ -1,3 +1,5 @@
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:freedom/backend/api.dart';
 import 'package:freedom/buytoletdeatils/buytoletdeatils_widget.dart';
 
 import '../flutter_flow/flutter_flow_theme.dart';
@@ -5,20 +7,23 @@ import '../flutter_flow/flutter_flow_util.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-class AddAddressWidget2 extends StatefulWidget {
-  const AddAddressWidget2({Key? key}) : super(key: key);
+class BuyToLet extends StatefulWidget {
+  const BuyToLet({Key? key}) : super(key: key);
 
   @override
-  _AddAddressWidget2State createState() => _AddAddressWidget2State();
+  _BuyToLetState createState() => _BuyToLetState();
 }
 
-class _AddAddressWidget2State extends State<AddAddressWidget2> {
+class _BuyToLetState extends State<BuyToLet> {
   TextEditingController? textController1;
   TextEditingController? textController2;
   TextEditingController? textController3;
   TextEditingController? textController4;
   TextEditingController? textController5;
   TextEditingController? textController6;
+  List address = [];
+  String? selectedItem;
+  bool showDropDown = false;
 
   @override
   void initState() {
@@ -34,6 +39,7 @@ class _AddAddressWidget2State extends State<AddAddressWidget2> {
   @override
   Widget build(BuildContext context) {
     return Dialog(
+      insetPadding: EdgeInsets.symmetric(vertical: 20),
       child: Container(
         width: MediaQuery.of(context).size.width * 0.9,
         height: 841,
@@ -101,6 +107,18 @@ class _AddAddressWidget2State extends State<AddAddressWidget2> {
                           prefixIcon: Icon(
                             Icons.search,
                           ),
+                          suffixIcon: InkWell(
+                            onTap: () {
+                              textController1!.clear();
+                              setState(() {
+                                showDropDown = false;
+                              });
+                            },
+                            child: Icon(
+                              Icons.cancel,
+                              color: Color(0xff4B65B2),
+                            ),
+                          ),
                         ),
                         style: FlutterFlowTheme.of(context).bodyText1.override(
                               fontFamily: 'Seoge UI',
@@ -110,6 +128,80 @@ class _AddAddressWidget2State extends State<AddAddressWidget2> {
                             ),
                       ),
                     ),
+                    if (showDropDown)
+                      Padding(
+                        padding: EdgeInsetsDirectional.fromSTEB(20, 10, 20, 0),
+                        child: Container(
+                          height: 50,
+                          color: Colors.white,
+                          padding: EdgeInsetsDirectional.fromSTEB(10, 0, 10, 0),
+                          child: DropdownButtonHideUnderline(
+                            child: DropdownButton<String>(
+                              value: selectedItem,
+                              hint:
+                                  Text("Select your address from the dropdown"),
+                              menuMaxHeight: 300,
+                              style: TextStyle(
+                                color: Colors.black,
+                                // overflow: TextOverflow.ellipsis,
+                              ),
+                              // isDense: true,
+                              isExpanded: true,
+                              items: address
+                                  .map(
+                                    (item) => DropdownMenuItem<String>(
+                                      child: Text(
+                                        item,
+                                        style: TextStyle(
+                                          color: Colors.black,
+                                        ),
+                                      ),
+                                      value: item,
+                                    ),
+                                  )
+                                  .toList(),
+                              onChanged: (item) {
+                                print(item);
+                                final data = item!.split(",");
+                                print(data);
+                                final name = data[0].split(" ");
+                                String flatNo = "";
+                                String flatName = "";
+                                List flatN = [];
+                                List flatNumber = [];
+                                name.forEach(
+                                  (element) {
+                                    if (element.contains(RegExp(r'[0-9]')) ||
+                                        element.contains(RegExp(
+                                            r'[-!@#$%^&*(),.?":{}|<>]'))) {
+                                      print(element);
+                                      flatNumber.add(element);
+                                      print(flatNumber);
+                                      setState(() {
+                                        flatNo = flatNumber.join(" ");
+                                      });
+                                    } else {
+                                      flatN.add(element);
+                                      setState(() {
+                                        flatName = flatN.join(" ");
+                                      });
+                                    }
+                                  },
+                                );
+                                print(name);
+                                textController2!.text = flatNo;
+                                textController3!.text = flatName;
+                                textController4!.text = data[1];
+                                textController5!.text = data[5];
+                                textController6!.text = textController1!.text;
+                                setState(() {
+                                  selectedItem = item;
+                                });
+                              },
+                            ),
+                          ),
+                        ),
+                      ),
                     Padding(
                       padding: EdgeInsetsDirectional.fromSTEB(10, 20, 0, 20),
                       child: Row(
@@ -118,33 +210,73 @@ class _AddAddressWidget2State extends State<AddAddressWidget2> {
                           Padding(
                             padding:
                                 EdgeInsetsDirectional.fromSTEB(0, 0, 10, 0),
-                            child: Container(
-                              width: 157,
-                              height: 50,
-                              decoration: BoxDecoration(
-                                gradient: LinearGradient(
-                                  colors: [
-                                    Color(0xFF13BBE6),
-                                    FlutterFlowTheme.of(context).primaryColor
-                                  ],
-                                  stops: [0, 1],
-                                  begin: AlignmentDirectional(1, 0),
-                                  end: AlignmentDirectional(-1, 0),
+                            child: InkWell(
+                              onTap: () async {
+                                if (textController1?.text == "") {
+                                  Fluttertoast.showToast(
+                                      msg:
+                                          "Fill the above fields to get the address",
+                                      backgroundColor: Colors.red);
+                                } else {
+                                  final data = await ApiFunctions()
+                                      .getAddressfromPostCode(
+                                    textController1!.text,
+                                  );
+                                  print(data);
+                                  print(data["addresses"]);
+                                  // if (address.isNotEmpty) address.clear();
+                                  setState(() {
+                                    selectedItem = null;
+                                    showDropDown = true;
+                                    address = data["addresses"];
+                                  });
+                                  // setState(() {
+                                  //   textController2?.text = data["addresses"][0]
+                                  //       ["sub_building_name"];
+                                  //   textController3?.text =
+                                  //       data["addresses"][0]["building_name"];
+                                  //   textController4?.text =
+                                  //       data["addresses"][0]["thoroughfare"];
+                                  //   textController5?.text =
+                                  //       data["addresses"][0]["town_or_city"];
+                                  //   textController6?.text = data["postcode"];
+                                  // });
+                                  // print(data["addresses"][0]
+                                  //     ["sub_building_name"]);
+                                  // print(data["addresses"][0]["building_name"]);
+                                  // print(data["addresses"][0]["thoroughfare"]);
+                                  // print(data["addresses"][0]["town_or_city"]);
+                                  // print(data["postcode"]);
+                                }
+                              },
+                              child: Container(
+                                width: 157,
+                                height: 50,
+                                decoration: BoxDecoration(
+                                  gradient: LinearGradient(
+                                    colors: [
+                                      Color(0xFF13BBE6),
+                                      FlutterFlowTheme.of(context).primaryColor
+                                    ],
+                                    stops: [0, 1],
+                                    begin: AlignmentDirectional(1, 0),
+                                    end: AlignmentDirectional(-1, 0),
+                                  ),
+                                  borderRadius: BorderRadius.circular(35),
                                 ),
-                                borderRadius: BorderRadius.circular(35),
-                              ),
-                              child: Align(
-                                alignment: AlignmentDirectional(0, 0),
-                                child: Text(
-                                  'Search Postcode',
-                                  style: FlutterFlowTheme.of(context)
-                                      .bodyText1
-                                      .override(
-                                        fontFamily: 'Seoge UI',
-                                        color: Colors.white,
-                                        fontSize: 16,
-                                        useGoogleFonts: false,
-                                      ),
+                                child: Align(
+                                  alignment: AlignmentDirectional(0, 0),
+                                  child: Text(
+                                    'Search Postcode',
+                                    style: FlutterFlowTheme.of(context)
+                                        .bodyText1
+                                        .override(
+                                          fontFamily: 'Seoge UI',
+                                          color: Colors.white,
+                                          fontSize: 16,
+                                          useGoogleFonts: false,
+                                        ),
+                                  ),
                                 ),
                               ),
                             ),
@@ -450,9 +582,15 @@ class _AddAddressWidget2State extends State<AddAddressWidget2> {
                     InkWell(
                       onTap: () {
                         Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (_) => BuytoletdeatilsWidget()));
+                          context,
+                          MaterialPageRoute(
+                            builder: (_) => BuytoletdeatilsWidget(
+                              postcode: textController6!.text,
+                              address:
+                                  '${textController2!.text} ${textController3!.text} ${textController4!.text}',
+                            ),
+                          ),
+                        );
                       },
                       child: Container(
                         width: 42,

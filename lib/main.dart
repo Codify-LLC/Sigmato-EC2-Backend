@@ -1,3 +1,5 @@
+import 'package:amplify_datastore/amplify_datastore.dart';
+import 'package:amplify_flutter/amplify_flutter.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -38,6 +40,19 @@ class _MyAppState extends State<MyApp> {
     Future.delayed(
         Duration(seconds: 1), () => setState(() => displaySplashImage = false));
   }
+
+  // Future<void> _configureAmplify() async {
+  //   // Add the following lines to your app initialization to add the DataStore plugin
+  //   final datastorePlugin =
+  //       AmplifyDataStore(modelProvider: ModelProvider.instance);
+  //   await Amplify.addPlugin(datastorePlugin);
+  //   try {
+  //     await Amplify.configure(amplifyconfig);
+  //   } on AmplifyAlreadyConfiguredException {
+  //     safePrint(
+  //         'Tried to reconfigure Amplify; this can occur when your app restarts on Android.');
+  //   }
+  // }
 
   void setLocale(String language) =>
       setState(() => _locale = createLocale(language));

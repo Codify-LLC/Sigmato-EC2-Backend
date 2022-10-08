@@ -1,4 +1,5 @@
 import 'package:freedom/components/property_type.dart';
+import 'package:freedom/components/thank_you_dialog.dart';
 import 'package:freedom/referral/referral_widget.dart';
 import 'package:freedom/referral_copy/referral_copy_widget.dart';
 
@@ -73,17 +74,26 @@ class _SummaryWidgetState extends State<SummaryWidget> {
                                   ),
                             ),
                           ),
-                          Container(
-                            width: 20,
-                            height: 24,
-                            decoration: BoxDecoration(
-                              color: FlutterFlowTheme.of(context)
-                                  .secondaryBackground,
-                              image: DecorationImage(
-                                fit: BoxFit.cover,
-                                image: Image.asset(
-                                  'assets/images/Group_528.png',
-                                ).image,
+                          InkWell(
+                            onTap: () {
+                              showDialog(
+                                  context: context,
+                                  builder: (_) {
+                                    return ThankYouDialog();
+                                  });
+                            },
+                            child: Container(
+                              width: 20,
+                              height: 24,
+                              decoration: BoxDecoration(
+                                color: FlutterFlowTheme.of(context)
+                                    .secondaryBackground,
+                                image: DecorationImage(
+                                  fit: BoxFit.cover,
+                                  image: Image.asset(
+                                    'assets/images/Group_528.png',
+                                  ).image,
+                                ),
                               ),
                             ),
                           ),
@@ -122,7 +132,7 @@ class _SummaryWidgetState extends State<SummaryWidget> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                'Hi Carole Demas!',
+                                'Hi Carole',
                                 style: FlutterFlowTheme.of(context)
                                     .bodyText1
                                     .override(

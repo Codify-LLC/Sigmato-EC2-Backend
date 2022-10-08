@@ -53,8 +53,8 @@ class _EditApplicantDetailsState extends State<EditApplicantDetails> {
       textController4 = TextEditingController(text: data["dateofbirth"]);
       textController6 = TextEditingController(text: data["mobilenumber"]);
       textController7 = TextEditingController(text: data["emailid"]);
-      dropDownValue1 = data["maritalstatus"];
-      dropDownValue2 = data["visa"];
+      dropDownValue2 = data["maritalstatus"];
+      dropDownValue1 = data["visa"];
       FFAppState().nationality = "United Kingdom";
     });
   }
@@ -62,8 +62,8 @@ class _EditApplicantDetailsState extends State<EditApplicantDetails> {
   Future updateApplicantDetails() async {
     // final prefs = await SharedPreferences.getInstance();
     // final user = prefs.getString("user_id");
-      final userId = await ApiFunctions().getUserId();
-      final id = await ApiFunctions().getApplicantId();
+    final userId = await ApiFunctions().getUserId();
+    final id = await ApiFunctions().getApplicantId();
 
     try {
       var response = await http.patch(
@@ -705,7 +705,7 @@ class _EditApplicantDetailsState extends State<EditApplicantDetails> {
                                     color: Colors.black,
                                     useGoogleFonts: false,
                                   ),
-                          hintText: '-',
+                          hintText: dropDownValue1,
                           fillColor: Colors.white,
                           elevation: 2,
                           borderColor: Colors.transparent,
@@ -759,7 +759,7 @@ class _EditApplicantDetailsState extends State<EditApplicantDetails> {
                                   color: Colors.black,
                                   useGoogleFonts: false,
                                 ),
-                        hintText: '-',
+                        hintText: dropDownValue2,
                         fillColor: Colors.white,
                         elevation: 2,
                         borderColor: Colors.transparent,

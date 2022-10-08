@@ -1,3 +1,4 @@
+import 'package:freedom/backend/document.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'flutter_flow/lat_lng.dart';
 
@@ -40,12 +41,27 @@ class FFAppState {
   String parentalLeave = "";
   String ownSharesInCompany = "";
   String kindOfEmployee = "";
+  bool previousAddress = false;
+  bool currentAddress = false;
+
+  bool applicant1occupation = false;
+  bool applicant2occupation = false;
 
   String releaseFromEquity = "";
 
   String PurchaseOptionSelected = '';
 
   String RemortgageOptionSelected = '';
+
+  List<Map> creditCardList = [];
+  List<Map> personalLoanList = [];
+  List<Map> carLoanList = [];
+  List<Map> storeCardList = [];
+
+  List<Document> identityDoc = [];
+  List<Document> addressProof = [];
+  List<Document> bankStatement = [];
+  List<Document> employmentSlip = [];
 
   int _currentFormPageNumber = 1;
   int get currentFormPageNumber => _currentFormPageNumber;
@@ -63,6 +79,9 @@ class FFAppState {
 
   String numberOfApplicants = 'Single Applicant';
 
+  //FORM2
+  bool addproperty = false;
+
   bool Loading = false;
 
   String _nationality = 'United Kingdom';
@@ -72,29 +91,29 @@ class FFAppState {
     prefs.setString('ff_nationality', _value);
   }
 
-  bool _creditCard = false;
-  bool get creditCard => _creditCard;
+  bool? _creditCard;
+  bool get creditCard => _creditCard!;
   set creditCard(bool _value) {
     _creditCard = _value;
     prefs.setBool('ff_creditCard', _value);
   }
 
-  bool _personalLoan = false;
-  bool get personalLoan => _personalLoan;
+  bool? _personalLoan;
+  bool get personalLoan => _personalLoan!;
   set personalLoan(bool _value) {
     _personalLoan = _value;
     prefs.setBool('ff_personalLoan', _value);
   }
 
-  bool _carLoan = false;
-  bool get carLoan => _carLoan;
+  bool? _carLoan;
+  bool get carLoan => _carLoan!;
   set carLoan(bool _value) {
     _carLoan = _value;
     prefs.setBool('ff_carLoan', _value);
   }
 
-  bool _storeCard = false;
-  bool get storeCard => _storeCard;
+  bool? _storeCard;
+  bool get storeCard => _storeCard!;
   set storeCard(bool _value) {
     _storeCard = _value;
     prefs.setBool('ff_storeCard', _value);

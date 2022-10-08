@@ -1,3 +1,5 @@
+import 'package:freedom/components/thank_you_dialog.dart';
+
 import '../flutter_flow/flutter_flow_theme.dart';
 import '../flutter_flow/flutter_flow_util.dart';
 import 'package:flutter/material.dart';
@@ -16,7 +18,7 @@ class _SeeNextStepsWidgetState extends State<SeeNextStepsWidget> {
     return Dialog(
       child: Container(
         width: 329,
-        height: 491,
+        height: 492,
         decoration: BoxDecoration(
           color: FlutterFlowTheme.of(context).secondaryBackground,
           borderRadius: BorderRadius.circular(10),
@@ -42,6 +44,7 @@ class _SeeNextStepsWidgetState extends State<SeeNextStepsWidget> {
                       fontFamily: 'Seoge UI',
                       fontSize: 18,
                       useGoogleFonts: false,
+                      fontWeight: FontWeight.w600,
                     ),
               ),
             ),
@@ -50,8 +53,16 @@ class _SeeNextStepsWidgetState extends State<SeeNextStepsWidget> {
               child: Padding(
                 padding: EdgeInsetsDirectional.fromSTEB(0, 50, 0, 50),
                 child: InkWell(
-                  onTap: () {
+                  onTap: () async {
                     Navigator.pop(context);
+
+                    Future.delayed(
+                        Duration(seconds: 2),
+                        await showDialog(
+                            context: context,
+                            builder: (_) {
+                              return ThankYouDialog();
+                            }));
                   },
                   child: Container(
                     width: 200,

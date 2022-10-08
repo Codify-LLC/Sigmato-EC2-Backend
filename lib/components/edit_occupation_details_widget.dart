@@ -73,6 +73,8 @@ class _EditOccupationDetailsState extends State<EditOccupationDetails> {
       dropDownValue1 = occupation["employementStatus"];
       dropDownValue2 = occupation["durationOfPay"];
     });
+
+    print(dropDownValue1);
   }
 
   Future addApplicantOccupationDetails() async {
@@ -210,7 +212,7 @@ class _EditOccupationDetailsState extends State<EditOccupationDetails> {
                 'Un-employed',
                 'Retired'
               ],
-              initialOption: dropDownValue1,
+              // initialOption: dropDownValue1,
               onChanged: (val) => setState(() => dropDownValue1 = val),
               width: MediaQuery.of(context).size.width * 0.9,
               height: 50,
@@ -221,7 +223,7 @@ class _EditOccupationDetailsState extends State<EditOccupationDetails> {
                     fontWeight: FontWeight.w600,
                     useGoogleFonts: false,
                   ),
-              hintText: 'Select',
+              hintText: dropDownValue1,
               icon: Icon(
                 Icons.keyboard_arrow_down,
                 color: Color(0xFF4B65B2),
@@ -782,7 +784,7 @@ class _EditOccupationDetailsState extends State<EditOccupationDetails> {
             padding: EdgeInsetsDirectional.fromSTEB(20, 0, 0, 0),
             child: FlutterFlowDropDown(
               options: ['Daily', 'Weekly', 'Fortnightly', 'Monthly'],
-              initialOption: dropDownValue2,
+              // initialOption: dropDownValue2,
               onChanged: (val) => setState(() => dropDownValue2 = val),
               width: MediaQuery.of(context).size.width * 0.9,
               height: 50,
@@ -793,7 +795,7 @@ class _EditOccupationDetailsState extends State<EditOccupationDetails> {
                     fontWeight: FontWeight.w600,
                     useGoogleFonts: false,
                   ),
-              hintText: 'Please Select',
+              hintText: dropDownValue2,
               icon: Icon(
                 Icons.keyboard_arrow_down,
                 color: Color(0xFF4B65B2),

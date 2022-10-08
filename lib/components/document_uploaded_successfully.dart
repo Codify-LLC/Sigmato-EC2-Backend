@@ -12,7 +12,7 @@ class DocumentUploadedSuccessfully extends StatelessWidget {
       backgroundColor: Colors.transparent,
       child: Container(
         width: 329,
-        height: 379,
+        height: 460,
         // decoration: BoxDecoration(
         //   color: FlutterFlowTheme.of(context).secondaryBackground,
         //   borderRadius: BorderRadius.circular(10),
@@ -23,7 +23,7 @@ class DocumentUploadedSuccessfully extends StatelessWidget {
           children: [
             Container(
               width: 329,
-              height: 300,
+              height: 397,
               decoration: BoxDecoration(
                 color: FlutterFlowTheme.of(context).secondaryBackground,
                 borderRadius: BorderRadius.circular(10),
@@ -62,7 +62,7 @@ class DocumentUploadedSuccessfully extends StatelessWidget {
               fillColor: Colors.white,
               icon: Icon(
                 Icons.close,
-                color: Color(0xFF979797),
+                color: Colors.black,
                 size: 26,
               ),
               onPressed: () {

@@ -3,13 +3,18 @@ import 'package:freedom/flutter_flow/flutter_flow_icon_button.dart';
 import 'package:freedom/form2/form2_widget.dart';
 import 'package:freedom/property_details/property_details_widget.dart';
 import 'package:freedom/property_summary.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
 
 import 'flutter_flow/flutter_flow_theme.dart';
 import 'flutter_flow/flutter_flow_widgets.dart';
 
 class CurrentAddressDetails extends StatefulWidget {
-  CurrentAddressDetails({Key? key}) : super(key: key);
+  final String address;
+  final String postcode;
+  CurrentAddressDetails(
+      {Key? key, required this.address, required this.postcode})
+      : super(key: key);
 
   @override
   State<CurrentAddressDetails> createState() => _CurrentAddressDetailsState();
@@ -137,15 +142,70 @@ class _CurrentAddressDetailsState extends State<CurrentAddressDetails> {
                         Padding(
                           padding: EdgeInsetsDirectional.fromSTEB(0, 20, 0, 0),
                           child: Container(
-                            height: 50,
-                            width: 50,
+                            width: double.infinity,
                             padding: EdgeInsets.all(13),
                             decoration: BoxDecoration(
                               color: Color(0xFFEEF7FE),
                               borderRadius: BorderRadius.circular(10),
                             ),
-                            child: Image.asset(
-                              "assets/images/building3.png",
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                RichText(
+                                  text: TextSpan(
+                                    children: [
+                                      WidgetSpan(
+                                        child: Image.asset(
+                                          "assets/images/building3.png",
+                                          height: 19,
+                                          width: 19,
+                                        ),
+                                      ),
+                                      TextSpan(
+                                        text: "  Address",
+                                        style: FlutterFlowTheme.of(context)
+                                            .bodyText1
+                                            .override(
+                                              fontFamily: 'Seoge UI',
+                                              fontSize: 16,
+                                              fontWeight: FontWeight.normal,
+                                              useGoogleFonts: false,
+                                            ),
+                                      )
+                                    ],
+                                  ),
+                                ),
+                                SizedBox(
+                                  height: 10,
+                                ),
+                                Text(
+                                  widget.address,
+                                  style: FlutterFlowTheme.of(context)
+                                      .bodyText1
+                                      .override(
+                                        color: Color(0xff979797),
+                                        fontFamily: 'Seoge UI',
+                                        fontSize: 12,
+                                        fontWeight: FontWeight.normal,
+                                        useGoogleFonts: false,
+                                      ),
+                                ),
+                                SizedBox(
+                                  height: 5,
+                                ),
+                                Text(
+                                  widget.postcode.toUpperCase(),
+                                  style: FlutterFlowTheme.of(context)
+                                      .bodyText1
+                                      .override(
+                                        color: Color(0xff979797),
+                                        fontFamily: 'Seoge UI',
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.normal,
+                                        useGoogleFonts: false,
+                                      ),
+                                )
+                              ],
                             ),
                           ),
                         ),
@@ -599,7 +659,96 @@ class _CurrentAddressDetailsState extends State<CurrentAddressDetails> {
                                 ],
                               )
                             : Container(),
-
+                        // Padding(
+                        //   padding: EdgeInsetsDirectional.fromSTEB(0, 20, 0, 10),
+                        //   child: Text(
+                        //     'Expected monthly rental income',
+                        //     style:
+                        //         FlutterFlowTheme.of(context).bodyText1.override(
+                        //               fontFamily: 'Seoge UI',
+                        //               fontSize: 16,
+                        //               fontWeight: FontWeight.normal,
+                        //               useGoogleFonts: false,
+                        //             ),
+                        //   ),
+                        // ),
+                        // Row(
+                        //   mainAxisSize: MainAxisSize.max,
+                        //   children: [
+                        //     Container(
+                        //       width: 36,
+                        //       height: 50,
+                        //       decoration: BoxDecoration(
+                        //         color: Color(0xFFEEF7FE),
+                        //         borderRadius: BorderRadius.only(
+                        //           bottomLeft: Radius.circular(10),
+                        //           bottomRight: Radius.circular(0),
+                        //           topLeft: Radius.circular(10),
+                        //           topRight: Radius.circular(0),
+                        //         ),
+                        //       ),
+                        //       child: Align(
+                        //         alignment: AlignmentDirectional(0, 0),
+                        //         child: Image.asset(
+                        //           'assets/images/Untitled-20.png',
+                        //           width: 21,
+                        //           height: 21,
+                        //           fit: BoxFit.cover,
+                        //         ),
+                        //       ),
+                        //     ),
+                        //     Container(
+                        //       width: MediaQuery.of(context).size.width * 0.8,
+                        //       height: 50,
+                        //       decoration: BoxDecoration(
+                        //         color: FlutterFlowTheme.of(context)
+                        //             .secondaryBackground,
+                        //         borderRadius: BorderRadius.only(
+                        //           bottomLeft: Radius.circular(0),
+                        //           bottomRight: Radius.circular(10),
+                        //           topLeft: Radius.circular(0),
+                        //           topRight: Radius.circular(10),
+                        //         ),
+                        //         border: Border.all(
+                        //           color: Color(0xFF979797),
+                        //           width: 0.25,
+                        //         ),
+                        //       ),
+                        //       child: Container(
+                        //         width: MediaQuery.of(context).size.width * 0.85,
+                        //         child: TextFormField(
+                        //           controller: textController7,
+                        //           autofocus: true,
+                        //           obscureText: false,
+                        //           decoration: InputDecoration(
+                        //             hintText: '-',
+                        //             hintStyle: FlutterFlowTheme.of(context)
+                        //                 .bodyText2
+                        //                 .override(
+                        //                   fontFamily: 'Seoge UI',
+                        //                   color: Color(0xFF979797),
+                        //                   fontSize: 16,
+                        //                   fontWeight: FontWeight.normal,
+                        //                   useGoogleFonts: false,
+                        //                 ),
+                        //             enabledBorder: InputBorder.none,
+                        //             focusedBorder: InputBorder.none,
+                        //             filled: true,
+                        //             fillColor: Colors.white,
+                        //           ),
+                        //           style: FlutterFlowTheme.of(context)
+                        //               .bodyText1
+                        //               .override(
+                        //                 fontFamily: 'Seoge UI',
+                        //                 fontSize: 16,
+                        //                 fontWeight: FontWeight.normal,
+                        //                 useGoogleFonts: false,
+                        //               ),
+                        //         ),
+                        //       ),
+                        //     ),
+                        //   ],
+                        // ),
                         Padding(
                           padding: EdgeInsetsDirectional.fromSTEB(0, 20, 0, 10),
                           child: Text(
@@ -649,6 +798,7 @@ class _CurrentAddressDetailsState extends State<CurrentAddressDetails> {
                                   color: Colors.transparent,
                                   width: 1,
                                 ),
+                                elevation: 0,
                                 borderRadius: BorderRadius.circular(8),
                               ),
                             ),
@@ -684,13 +834,14 @@ class _CurrentAddressDetailsState extends State<CurrentAddressDetails> {
                                   color: Colors.transparent,
                                   width: 1,
                                 ),
+                                elevation: 0,
                                 borderRadius: BorderRadius.circular(8),
                               ),
                             ),
                           ],
                         ),
                         Padding(
-                          padding: EdgeInsetsDirectional.fromSTEB(0, 20, 0, 10),
+                          padding: EdgeInsetsDirectional.fromSTEB(0, 25, 0, 10),
                           child: Text(
                             'Amount required to release',
                             style:
@@ -849,7 +1000,18 @@ class _CurrentAddressDetailsState extends State<CurrentAddressDetails> {
                                       Navigator.push(
                                           context,
                                           MaterialPageRoute(
-                                              builder: (_) => Form2Widget()));
+                                              builder: (_) => Form2Widget(
+                                                    address: widget.address,
+                                                    postcode: widget.postcode,
+                                                    mortBalance:
+                                                        textController1!.text,
+                                                    remMort:
+                                                        textController2!.text,
+                                                    propValue:
+                                                        textController3!.text,
+                                                    mortLender:
+                                                        textController4!.text,
+                                                  )));
                                     },
                                     child: Container(
                                       width: 42,
