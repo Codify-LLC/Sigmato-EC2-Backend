@@ -4,6 +4,15 @@ const Property = require('../Models/propertyModel')
 
 
 //GET ALL PROPERTIES OF USER
+router.get('/:id', async (req, res) => {
+	try {
+		const properties = await Property.find({customerId: req.params.id})
+		res.status(200).json(properties);
+	} catch (err) {
+		res.status(400).json({ message: err.message })
+	}
+})
+
 router.get('/user/:id', async (req, res) => {
 	try {
 		const properties = await Property.find({customerId: req.params.id})
