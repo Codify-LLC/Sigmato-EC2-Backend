@@ -8,7 +8,6 @@ router.get('/:id', async (req, res) => {
 	try {
 		const customer = await Customer.find({_id: req.params.id})
 		res.status(200).json(customer);
-		console.log(customer)
 	} catch (err) {
 		res.status(400).json({ message: err.message })
 	}
@@ -18,7 +17,6 @@ router.get('/all/customers', async (req, res) => {
 	try {
 		const customers = await Customer.find()
 		res.status(200).json(customers);
-		console.log(customers)
 	} catch (err) {
 		res.status(400).json({ message: err.message })
 	}
