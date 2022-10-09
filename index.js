@@ -4,7 +4,7 @@ const cors = require('cors');
 const app = express()
 const port = 5500
 const customerRouter = require('./Routes/customer')
-const applicantionRouter = require('./Routes/application')
+const applicationRouter = require('./Routes/application')
 const propertyRouter = require('./Routes/property');
 
 require('dotenv').config()
@@ -28,7 +28,7 @@ MongoClient.connect(
 	});
 
 app.use("/customer", customerRouter)
-app.use("/applicantion", applicantionRouter)
+app.use("/application", applicationRouter)
 app.use("/property", propertyRouter)
 
 app.get('/', (req, res) => {
