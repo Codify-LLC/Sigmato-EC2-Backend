@@ -4,6 +4,15 @@ const Customer = require('../Models/customerModel')
 
 
 //ADD USER
+router.get('/:id', async (req, res) => {
+	try {
+		const customer = await Customer.find({_id: req.body.id})
+		res.status(200).json(newUser);
+	} catch (err) {
+		res.status(400).json({ message: err.message })
+	}
+})
+
 router.post('/add', async (req, res) => {
 	console.log(req.body)
 	const user = new Customer(req.body)
