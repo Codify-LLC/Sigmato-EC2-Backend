@@ -15,6 +15,6 @@ const PropertySchema = new Schema({
 	},
 });
 
-const Property = mongoose.models.Property || mongoose.model('Property', PropertySchema);
+const Property = mongoose.model('Property', PropertySchema);
 
 module.exports = Property;

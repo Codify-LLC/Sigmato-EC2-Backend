@@ -1,7 +1,7 @@
 const { Schema } = require('mongoose');
 const mongoose = require('mongoose');
 
-const applicantSchema = new Schema({
+const applicationSchema = new Schema({
 	customer: {
 		type: Schema.Types.ObjectId,
 		ref: "Customer"
@@ -22,6 +22,6 @@ const applicantSchema = new Schema({
 	}
 });
 
-const Applicant = mongoose.models.Applicant || mongoose.model('Application', applicantSchema);
+const Application = mongoose.model('Application', applicationSchema);
 
-module.exports = Applicant;
+module.exports = Application;
