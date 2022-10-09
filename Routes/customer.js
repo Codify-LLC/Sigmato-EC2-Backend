@@ -6,15 +6,25 @@ const Customer = require('../Models/customerModel')
 //ADD USER
 router.get('/:id', async (req, res) => {
 	try {
-		const customer = await Customer.find({_id: req.body.id})
-		res.status(200).json(newUser);
+		const customer = await Customer.find({_id: req.params.id})
+		res.status(200).json(customer);
+		console.log(customer)
+	} catch (err) {
+		res.status(400).json({ message: err.message })
+	}
+})
+
+router.get('/all/customers', async (req, res) => {
+	try {
+		const customers = await Customer.find()
+		res.status(200).json(customers);
+		console.log(customers)
 	} catch (err) {
 		res.status(400).json({ message: err.message })
 	}
 })
 
 router.post('/add', async (req, res) => {
-	console.log(req.body)
 	const user = new Customer(req.body)
 	try {
 		const newUser = await user.save()

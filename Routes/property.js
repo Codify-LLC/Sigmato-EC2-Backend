@@ -4,7 +4,7 @@ const Property = require('../Models/propertyModel')
 
 
 //GET ALL PROPERTIES OF USER
-router.post('/user/:id', async (req, res) => {
+router.get('/user/:id', async (req, res) => {
 	try {
 		const properties = await Property.find({customerId: req.params.id})
 		res.status(200).json(properties);
