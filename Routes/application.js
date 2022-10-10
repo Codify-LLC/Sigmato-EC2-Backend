@@ -26,7 +26,7 @@ router.post("/add", async (req, res) => {
 //UPDATE APPLICANT
 router.patch("/:id", async (req, res) => {
 	try {
-		const updatedApplicant = await Application.findByIdAndpUpdate(req.params.id, req.body, { new: true })
+		const updatedApplicant = await Application.findByIdAndUpdate(req.params.id, req.body, { new: true })
 		res.status(200).json(updatedApplicant)
 	} catch (err) {
 		res.json({ message: err.message })
