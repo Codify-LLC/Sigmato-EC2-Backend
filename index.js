@@ -19,13 +19,17 @@ app.use(bodyParser.json())
 // mongoose.connect(`${process.env.MONGODB_URI}`, { useNewUrlParser: true, ssl: true, sslValidate: false }, (err) => {
 // 	console.log(err)
 // });
-MongoClient.connect(
-	`${process.env.MONGODB_URI}`, {
-	useNewUrlParser: true
-},
-	function (err, client) {
-		console.log(err + " , " + client);
-	});
+// MongoClient.connect(
+// 	`${process.env.MONGODB_URI}`, {
+// 	useNewUrlParser: true
+// },
+// 	function (err, client) {
+// 		console.log(err + " , " + client);
+// 	});
+
+mongoose.connect("${process.env.MONGODB_URI}", { useNewUrlParser: true })
+	.then(() => console.log("Connected to db"))
+	.catch((err) => console.log(err))
 
 app.use("/customer", customerRouter)
 app.use("/application", applicationRouter)
