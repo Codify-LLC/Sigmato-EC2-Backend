@@ -36,7 +36,7 @@ router.post('/add', async (req, res) => {
 //UPDATE PROPERTY
 router.patch("/:id", async (req, res) => {
 	try {
-		const updatedProperty = await Property.findByIdAndpUdate(req.params.id, req.body, { new: true })
+		const updatedProperty = await Property.findByIdAndUpdate(req.params.id, req.body, { new: true })
 		res.status(200).json(updatedProperty)
 	} catch (err) {
 		res.json({ message: err.message })
