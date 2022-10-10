@@ -27,7 +27,7 @@ app.use(bodyParser.json())
 // 		console.log(err + " , " + client);
 // 	});
 
-mongoose.connect("${process.env.MONGODB_URI}", { useNewUrlParser: true })
+mongoose.connect("mongodb+srv://admin:0XPhAeQulUcLKVLR@cluster0.nregswh.mongodb.net/?retryWrites=true&w=majority", { useNewUrlParser: true })
 	.then(() => console.log("Connected to db"))
 	.catch((err) => console.log(err))
 
