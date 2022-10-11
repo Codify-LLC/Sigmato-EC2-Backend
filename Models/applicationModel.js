@@ -19,6 +19,9 @@ const applicationSchema = new Schema({
 	property: {
 		type: Map
 		// contains the text fields data from UI
+	}, 
+	documents: {
+		type: Map
 	}
 });
 
