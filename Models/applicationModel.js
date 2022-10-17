@@ -7,6 +7,9 @@ const applicationSchema = new Schema({
 		ref: "Customer"
 		// ObjectId of customer
 	},
+	interestedIn: {
+		type: String,
+	},
 	applicant1: {
 		type: Map,
 		required: true
