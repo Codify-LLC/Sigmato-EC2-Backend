@@ -4,9 +4,26 @@ const router = express.Router();
 
 
 //ADD APPLICANT
+router.get('/', async (req, res) => {
+	try {
+		const applicants = await Application.find()
+		res.status(200).json(applicants);
+	} catch (err) {
+		res.status(400).json({ message: err.message })
+	}
+})
+
 router.get('/:id', async (req, res) => {
 	try {
 		const applicants = await Application.find({_id: req.params.id})
+		res.status(200).json(applicants);
+	} catch (err) {
+		res.status(400).json({ message: err.message })
+	}
+})
+router.get('user/:id', async (req, res) => {
+	try {
+		const applicants = await Application.find({customer: req.params.id})
 		res.status(200).json(applicants);
 	} catch (err) {
 		res.status(400).json({ message: err.message })
