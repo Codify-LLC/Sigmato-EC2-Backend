@@ -6,6 +6,7 @@ const port = 5500
 const customerRouter = require('./Routes/customer')
 const applicationRouter = require('./Routes/application')
 const propertyRouter = require('./Routes/property');
+const userRouter = require('./Routes/user');
 
 require('dotenv').config()
 app.use(cors())
@@ -27,13 +28,15 @@ app.use(bodyParser.json())
 // 		console.log(err + " , " + client);
 // 	});
 
-mongoose.connect("mongodb+srv://admin:0XPhAeQulUcLKVLR@cluster0.nregswh.mongodb.net/?retryWrites=true&w=majority", { useNewUrlParser: true })
+// mongoose.connect("mongodb+srv://admin:0XPhAeQulUcLKVLR@cluster0.nregswh.mongodb.net/?retryWrites=true&w=majority", { useNewUrlParser: true })
+mongoose.connect("mongodb://localhost:27017/freedom", { useNewUrlParser: true })
 	.then(() => console.log("Connected to db"))
 	.catch((err) => console.log(err))
 
 app.use("/customer", customerRouter)
 app.use("/application", applicationRouter)
 app.use("/property", propertyRouter)
+app.use("/user", userRouter)
 
 app.get('/', (req, res) => {
 	res.send('Hello World!')
