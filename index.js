@@ -29,8 +29,8 @@ app.use(bodyParser.json())
 // 		console.log(err + " , " + client);
 // 	});
 
-// mongoose.connect("mongodb+srv://admin:0XPhAeQulUcLKVLR@cluster0.nregswh.mongodb.net/?retryWrites=true&w=majority", { useNewUrlParser: true })
-mongoose.connect("mongodb://localhost:27017/freedom", { useNewUrlParser: true })
+mongoose.connect("mongodb+srv://admin:0XPhAeQulUcLKVLR@cluster0.nregswh.mongodb.net/?retryWrites=true&w=majority", { useNewUrlParser: true })
+// mongoose.connect("mongodb://localhost:27017/freedom", { useNewUrlParser: true })
 	.then(() => console.log("Connected to db"))
 	.catch((err) => console.log(err))
 
