@@ -5,9 +5,18 @@ const userModel = new Schema({
 	email: {
 		type: String,
 		required: true,
-		unique: true
+		unique: true,
+		immutable: true
 	},
 	password: {
+		type: String,
+		required: true
+	},
+	role:{
+		type: String,
+		required: true
+	},
+	name: {
 		type: String,
 		required: true
 	}

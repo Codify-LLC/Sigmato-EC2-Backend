@@ -15,6 +15,7 @@ app.use(bodyParser.urlencoded({ extended: false }))
 var MongoClient = require('mongodb').MongoClient
 
 // parse application/json
+app.use(express.json())
 app.use(bodyParser.json())
 
 // mongoose.connect(`${process.env.MONGODB_URI}`, { useNewUrlParser: true, ssl: true, sslValidate: false }, (err) => {
